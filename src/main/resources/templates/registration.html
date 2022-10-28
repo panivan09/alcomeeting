@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+
+</head>
+
+
+<body>
+
+<form action="#" th:action="@{/registration}" th:object="${newUser}" method="post">
+
+    <label for="firstName">First name</label>
+    <input type="text" th:field="*{name}" id="firstName" placeholder="First name">
+    <p>
+        <label for="lastName">Last name</label>
+        <input type="text" th:field="*{lastName}" id="lastName" placeholder="Last name">
+    <p>
+        <label for="email">email</label>
+        <input type="text" th:field="*{email}" id="email" placeholder="email">
+    <p>
+        <label for="userName">Nickname</label>
+        <input type="text" th:field="*{userName}" id="userName" placeholder="Nickname">
+    <p>
+        <label for="password">Password</label>
+        <input type="text" th:field="*{password}" id="password" placeholder="password">
+
+
+
+    <ul>
+
+
+        <li th:each="beverage : ${allBeverages}">
+
+
+
+            <table class="table-header table-bordered table-striped">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                </tr>
+
+                </thead>
+                <tbody>
+
+
+
+            <td class="ui checkbox">
+                <input type="checkbox" th:field="*{beverages}" th:value="${beverage.id}">
+                <td th:text="${beverage.name}" ></td>
+                <td th:text="${beverage.description}" ></td>
+            </td>
+
+
+                </tbody>
+            </table>
+
+
+        </li>
+    </ul>
+
+
+
+    <p>
+        <input type="submit" value="Register">
+
+</form>
+
+<!--<h2>All Beverages:</h2>-->
+
+<!--<div th:switch="${allBeverages}">-->
+<!--<table>-->
+<!--    <tr>-->
+<!--        <th>Name</th>-->
+<!--        <th>Description</th>-->
+<!--    </tr>-->
+
+<!--    <tr th:each="beverage : ${allBeverages}">-->
+<!--        <td th:text="${beverage.name}"></td>-->
+<!--        <td th:text="${beverage.description}"></td>-->
+<!--    </tr>-->
+
+<!--</table>-->
+<!--</div>-->
+
+
+</body>
+</html>
