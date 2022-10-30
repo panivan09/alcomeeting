@@ -1,6 +1,7 @@
 package com.ivan.alcomeeting.controller;
 
 
+import com.ivan.alcomeeting.dto.UserDto;
 import com.ivan.alcomeeting.entity.User;
 import com.ivan.alcomeeting.service.BeverageService;
 import com.ivan.alcomeeting.service.UserService;
@@ -27,7 +28,8 @@ public class RegistrationController {
     @GetMapping
     public String showRegistrationPage(Model model){
 
-        User newUser = new User();
+//        User newUser = new User();
+        UserDto newUser = new UserDto();
 
         model.addAttribute("newUser", newUser);
         model.addAttribute("allBeverages", beverageService.getAllBeverages());
@@ -37,7 +39,7 @@ public class RegistrationController {
 
 
     @PostMapping
-    public String registerUser(@ModelAttribute("newUser") User user){
+    public String registerUser(@ModelAttribute("newUser") UserDto user){
 
         userService.saveUser(user);
 

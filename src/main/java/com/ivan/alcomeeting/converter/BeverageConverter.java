@@ -1,11 +1,11 @@
-package com.ivan.alcomeeting.converter.todto;
+package com.ivan.alcomeeting.converter;
 
 import com.ivan.alcomeeting.dto.BeverageDto;
 import com.ivan.alcomeeting.entity.Beverage;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BeverageDtoConverter {
+public class BeverageConverter {
 
     public BeverageDto beverageToBeverageDto(Beverage beverage){
 
@@ -17,4 +17,15 @@ public class BeverageDtoConverter {
 
         return beverageDto;
     }
+
+    public Beverage beverageDtoToBeverage(BeverageDto beverageDto){
+
+        Beverage beverage = new Beverage();
+
+        beverage.setName(beverageDto.getName());
+        beverage.setDescription(beverageDto.getDescription());
+
+        return beverage;
+    }
+
 }

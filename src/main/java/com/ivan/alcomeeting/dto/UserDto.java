@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 
 @Data
@@ -14,10 +15,11 @@ public class UserDto {
 
     private Long id;
     private String name;
-    private String lastname;
+    private String lastName;
     private String email;
     private String userName;
     private String password;
-    private List<BeverageDto> beveragesDto;
+//    private Set<BeverageDto> beverages;
+    private Set<Long> beverages;
 
 }

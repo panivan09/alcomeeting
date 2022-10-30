@@ -21,10 +21,10 @@ public class UserController {
         return userService.getUserById(userId);
     }
 
-    @PostMapping
-    public void addNewUser(@RequestBody User user){
-        userService.saveUser(user);
-    }
+//    @PostMapping
+//    public void addNewUser(@RequestBody User user){
+//        userService.saveUser(user);
+//    }
 
 
 
