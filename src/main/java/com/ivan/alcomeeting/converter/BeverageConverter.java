@@ -22,6 +22,7 @@ public class BeverageConverter {
 
         Beverage beverage = new Beverage();
 
+        beverage.setId(beverageDto.getId());
         beverage.setName(beverageDto.getName());
         beverage.setDescription(beverageDto.getDescription());
 

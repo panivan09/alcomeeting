@@ -2,6 +2,7 @@ package com.ivan.alcomeeting.entity;
 
 import lombok.ToString;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -51,6 +52,10 @@ public class User {
     private Set<Meeting> meetings;
 
     public User() {
+    }
+
+    public User(Long id) {
+        this.id = id;
     }
 
     public User(Long id,

@@ -24,8 +24,8 @@ INSERT INTO beverages(name, description) VALUES
 
 INSERT INTO meetings(date, address, name, owner_user_id) VALUES
 ('2020-05-17', 'Dmytro Yavornytsky Avenue 3', 'Do usra4ki', 4),
-('2020-07-25','Sholom-Aleichem St, 4/26', 'Shabbat wine party', 5),
-('2020-11-11', 'in the house', 'Friends party', 1);
+('2020-06-06','Isla de muerta', 'Pirate party', 3),
+('2020-11-11', 'In the house', 'Friends party', 1);
 
 ------------------------------------------------------------------------------------------------------------------------
 INSERT INTO users_beverages(user_id, beverage_id) VALUES

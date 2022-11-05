@@ -1,8 +1,7 @@
 package com.ivan.alcomeeting.controller;
 
 
-import com.ivan.alcomeeting.dto.UserDto;
-import com.ivan.alcomeeting.entity.User;
+import com.ivan.alcomeeting.dto.UserCreationDto;
 import com.ivan.alcomeeting.service.BeverageService;
 import com.ivan.alcomeeting.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Controller
-@RequestMapping("/registration")
+@RequestMapping("api/registration")
 public class RegistrationController {
 
     private final BeverageService beverageService;
@@ -25,25 +24,12 @@ public class RegistrationController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public String showRegistrationPage(Model model){
-
-//        User newUser = new User();
-        UserDto newUser = new UserDto();
-
-        model.addAttribute("newUser", newUser);
-        model.addAttribute("allBeverages", beverageService.getAllBeverages());
-
-        return "registration";
-    }
-
-
     @PostMapping
-    public String registerUser(@ModelAttribute("newUser") UserDto user){
+    public String registerUser(@ModelAttribute("userCreationDto") UserCreationDto user){
 
-        userService.saveUser(user);
+        userService.createUser(user);
 
-        return "redirect:/";
+        return "redirect:/main";
     }
 
 }

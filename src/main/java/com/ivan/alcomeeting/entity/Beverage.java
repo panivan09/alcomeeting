@@ -24,6 +24,10 @@ public class Beverage {
     public Beverage() {
     }
 
+    public Beverage(Long id) {
+        this.id = id;
+    }
+
     public Beverage(Long id,
                     String name,
                     String description) {
@@ -34,6 +38,10 @@ public class Beverage {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
