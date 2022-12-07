@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -13,7 +14,7 @@ import java.util.List;
 public class MeetingDto {
     private Long id;
     private String name;
-    private LocalDate date;
+    private String date;
     private String address;
     private UserDto meetingOwner;
     private List<UserDto> participates;

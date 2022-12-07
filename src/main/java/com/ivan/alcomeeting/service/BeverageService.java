@@ -37,6 +37,11 @@ public class BeverageService {
        return beverageConverter.beverageToBeverageDto(beverageById);
     }
 
+    public BeverageDto getBeverageByName(String beverageName) {
+        Beverage beverageByName = getBeverageEntityByName(beverageName);
+        return beverageConverter.beverageToBeverageDto(beverageByName);
+    }
+
     public BeverageDto createBeverage(BeverageDto createBeverageDto) {
         Beverage saveBeverage = beverageConverter.beverageDtoToBeverage(createBeverageDto);
         beverageRepository.save(saveBeverage);
@@ -66,11 +71,24 @@ public class BeverageService {
 
     }
 
-    private Beverage getBeverageEntityById(Long beverageId) {
+    protected List<Beverage> getBeverageEntitiesByIds(Collection<Long> beverageIds) {
+        return beverageRepository.findAllById(beverageIds);
+    }
+
+    protected Beverage getBeverageEntityById(Long beverageId) {
         Optional<Beverage> beverageById = beverageRepository.findById(beverageId);
         if (beverageById.isEmpty()){
             throw new IllegalStateException("The beverage does not exist by Id: " + beverageId);
         }
         return beverageById.get();
     }
+
+    public Beverage getBeverageEntityByName(String beverageName) {
+        Optional<Beverage> beverageById = beverageRepository.findByName(beverageName);
+        if (beverageById.isEmpty()){
+            throw new IllegalStateException("The beverage does not exist by Id: " + beverageName);
+        }
+        return beverageById.get();
+    }
+
 }

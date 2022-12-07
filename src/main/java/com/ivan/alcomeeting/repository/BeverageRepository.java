@@ -32,4 +32,5 @@ public interface BeverageRepository extends JpaRepository<Beverage, Long> {
     void removeBeverage(Long beverageId);
 
 
+    Optional<Beverage> findByName(String beverageName);
 }

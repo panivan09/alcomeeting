@@ -7,7 +7,11 @@ import com.ivan.alcomeeting.entity.Meeting;
 import com.ivan.alcomeeting.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -28,37 +32,50 @@ public class MeetingConverter {
 
         meetingDto.setId(meeting.getId());
         meetingDto.setName(meeting.getName());
-        meetingDto.setDate(meeting.getDate());
+        meetingDto.setDate(meeting.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         meetingDto.setAddress(meeting.getAddress());
         meetingDto.setMeetingOwner(userConverter.userToUserDto(meeting.getMeetingOwner()));
-        meetingDto.setParticipates(meeting.getParticipates().stream()
-                                                            .map(userConverter::userToUserDto)
-                                                            .collect(Collectors.toList()));
-        meetingDto.setBeveragesDto(meeting.getBeverages().stream()
-        .map(beverageConverter::beverageToBeverageDto)
-        .collect(Collectors.toList()));
+
+        Set<User> participates = meeting.getParticipates();
+        if (CollectionUtils.isEmpty(participates)){
+            meetingDto.setParticipates(new ArrayList<>());
+        } else {
+            meetingDto.setParticipates(participates.stream()
+                    .map(userConverter::userToUserDto)
+                    .collect(Collectors.toList()));
+        }
+
+        Set<Beverage> beverages = meeting.getBeverages();
+        if (CollectionUtils.isEmpty(beverages)){
+            meetingDto.setBeveragesDto(new ArrayList<>());
+        } else {
+            meetingDto.setBeveragesDto(meeting.getBeverages().stream()
+                    .map(beverageConverter::beverageToBeverageDto)
+                    .collect(Collectors.toList()));
+        }
 
         return meetingDto;
     }
 
-
-    public Meeting meetingCreationDtoToMeeting(MeetingCreationDto meetingCreationDto) {
+    public Meeting meetingCreationDtoToMeeting(
+            MeetingCreationDto meetingCreationDto,
+            List<Beverage> beverages,
+            User owner) {
 
         Meeting meeting = new Meeting();
+        Set<User> participates = new HashSet<>();
+        participates.add(owner);
 
-//        meeting.setId(meetingCreationDto.getId());
         meeting.setName(meetingCreationDto.getName());
-        meeting.setDate(meetingCreationDto.getDate());
+        meeting.setDate(LocalDateTime.parse(meetingCreationDto.getDate()));
         meeting.setAddress(meetingCreationDto.getAddress());
-        meeting.setMeetingOwner(new User(meetingCreationDto.getMeetingOwner()));
-        meeting.setBeverages(meetingCreationDto.getBeveragesDto().stream()
-                                                                    .map(Beverage::new)
-                                                                    .collect(Collectors.toSet()));
-        meeting.setParticipates(meetingCreationDto.getParticipates().stream()
-                                                                    .map(User::new)
-                                                                    .collect(Collectors.toSet()));
+        meeting.setMeetingOwner(owner);
+        meeting.setParticipates(participates);
+        meeting.setMeetingOwner(owner);
+        meeting.setBeverages(new HashSet<>(beverages));
 
         return meeting;
-
     }
+
+
 }

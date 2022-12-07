@@ -4,13 +4,14 @@ package com.ivan.alcomeeting.converter;
 import com.ivan.alcomeeting.dto.BeverageDto;
 import com.ivan.alcomeeting.dto.UserCreationDto;
 import com.ivan.alcomeeting.dto.UserDto;
+import com.ivan.alcomeeting.dto.view.UserViewDto;
 import com.ivan.alcomeeting.entity.Beverage;
+import com.ivan.alcomeeting.entity.Role;
 import com.ivan.alcomeeting.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Comparator;
-import java.util.LinkedHashSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -42,9 +43,9 @@ public class UserConverter {
         return userDto;
     }
 
-
-    public User userCreationDtoToUser(UserCreationDto userCreationDto){
-
+    public User userCreationDtoToUser(UserCreationDto userCreationDto,
+                                      List<Beverage> beverages,
+                                      Set<Role> roles){
         User user = new User();
 
         user.setName(userCreationDto.getName());
@@ -52,18 +53,14 @@ public class UserConverter {
         user.setEmail(userCreationDto.getEmail());
         user.setUserName(userCreationDto.getUserName());
         user.setPassword(userCreationDto.getPassword());
-        user.setBeverages(userCreationDto.getBeverages().stream()
-                .map(Beverage::new)
-                .collect(Collectors.toSet()));
+        user.setBeverages(new HashSet<>(beverages));
+        user.setRoles(roles);
 
         return user;
 
     }
 
-
-
     public User userDtoToUser(UserDto userDto){
-
         User user = new User();
 
         user.setName(userDto.getName());
@@ -77,6 +74,19 @@ public class UserConverter {
 
         return user;
 
+    }
+
+    public UserViewDto userToUserViewDto(User user){
+        UserViewDto userViewDto = new UserViewDto();
+
+        userViewDto.setId(user.getId());
+        userViewDto.setName(user.getName());
+        userViewDto.setLastName(user.getLastName());
+        userViewDto.setEmail(user.getEmail());
+        userViewDto.setBeverages(user.getBeverages().stream()
+                                                    .map(Beverage::getName)
+                                                    .collect(Collectors.joining(", ")));
+        return userViewDto;
     }
 
 }

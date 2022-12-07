@@ -1,4 +1,4 @@
-package com.ivan.alcomeeting.controller;
+package com.ivan.alcomeeting.controller.pages;
 
 
 import com.ivan.alcomeeting.dto.UserCreationDto;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Controller
-@RequestMapping("api/registration")
+@RequestMapping("thyme/registration")
 public class RegistrationController {
 
     private final BeverageService beverageService;
@@ -24,12 +24,22 @@ public class RegistrationController {
         this.userService = userService;
     }
 
+    @GetMapping
+    public String showRegistrationPage(Model model){
+        UserCreationDto userCreationDto = new UserCreationDto();
+
+        model.addAttribute("userCreationDto", userCreationDto);
+        model.addAttribute("allBeverages", beverageService.getAllBeverages());
+
+        return "registration";
+    }
+
     @PostMapping
     public String registerUser(@ModelAttribute("userCreationDto") UserCreationDto user){
-
         userService.createUser(user);
 
-        return "redirect:/main";
+        return "redirect:main";
     }
+
 
 }

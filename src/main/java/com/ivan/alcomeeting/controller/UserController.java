@@ -5,6 +5,7 @@ import com.ivan.alcomeeting.dto.UserDto;
 import com.ivan.alcomeeting.dto.UserUpdateDto;
 import com.ivan.alcomeeting.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class UserController {
     }
 
     @GetMapping(path = "{userId}")
+    @PreAuthorize("hasAuthority('READ')")
     public UserDto getUserById(@PathVariable("userId") Long userId){
         return userService.getUserById(userId);
     }
@@ -30,36 +32,52 @@ public class UserController {
     // create user ??????????????????????????
     // update user +
     // remove user +
-    // add beverage (id)
-    // remove beverage (id)
+    // add beverage (id) +
+    // remove beverage (id) +
 
     @GetMapping("/bulk")
+    @PreAuthorize("hasAuthority('READ')")
     public List<UserDto> getAllUsers(){
         return userService.getAllUsers();
     }
 
 
     @PostMapping
+    @PreAuthorize("hasAuthority('WRITE')")
     public UserDto createUser(@RequestBody UserCreationDto userCreationDto){
-        UserDto user = userService.createUser(userCreationDto); // ?????????????
-        return userService.getUserById(user.getId());
+        return userService.createUser(userCreationDto);
     }
 
     /**
      * If this method receive a "userUpdate" with "null" field, it sets "null" to field for existing "User".
      */
     @PutMapping
+    @PreAuthorize("hasAuthority('UPDATE')")
     public UserDto updateUser(@RequestBody UserUpdateDto userUpdate){
         return userService.updateUser(userUpdate);
-
-
     }
 
     @DeleteMapping("{userId}")
+    @PreAuthorize("hasAuthority('DELETE')")
     public void deleteUser(@PathVariable Long userId){
         userService.deleteUser(userId);
     }
 
+    @PutMapping( "/{userId}/beverage/")
+    @PreAuthorize("hasAuthority('WRITE')")
+    public UserDto addBeverage(@PathVariable("userId") Long userId,
+                                   @RequestParam Long beverageId) {
+
+        return userService.addBeverage(userId, beverageId);
+    }
+
+    @DeleteMapping("/{userId}/beverage/")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    public UserDto deleteBeverage(@PathVariable("userId") Long userId,
+                                  @RequestParam Long beverageId){
+
+        return userService.deleteBeverage(userId, beverageId);
+    }
 
 
 }

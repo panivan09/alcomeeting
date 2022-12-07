@@ -4,6 +4,7 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 
@@ -19,8 +20,8 @@ public class Meeting {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "date")
-    private LocalDate date;
+    @Column(name = "date", columnDefinition = "TIMESTAMP")
+    private LocalDateTime date;
 
     @Column(name = "address")
     private String address;
@@ -48,7 +49,7 @@ public class Meeting {
 
     public Meeting(Long id,
                    String name,
-                   LocalDate date,
+                   LocalDateTime date,
                    String address,
                    User meetingOwner,
                    Set<User> participates,
@@ -78,11 +79,11 @@ public class Meeting {
         this.name = name;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

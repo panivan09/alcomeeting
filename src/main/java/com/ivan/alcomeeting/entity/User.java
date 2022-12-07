@@ -1,6 +1,6 @@
 package com.ivan.alcomeeting.entity;
 
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Cascade;
 
@@ -10,6 +10,10 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
@@ -51,8 +55,12 @@ public class User {
     )
     private Set<Meeting> meetings;
 
-    public User() {
-    }
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+
 
     public User(Long id) {
         this.id = id;
@@ -75,74 +83,6 @@ public class User {
         this.password = password;
         this.meeting = meeting;
         this.beverages = beverages;
-        this.meetings = meetings;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Meeting getMeetingId() {
-        return meeting;
-    }
-
-    public void setMeetingId(Meeting meetingId) {
-        this.meeting = meetingId;
-    }
-
-    public Set<Beverage> getBeverages() {
-        return beverages;
-    }
-
-    public void setBeverages(Set<Beverage> beverages) {
-        this.beverages = beverages;
-    }
-
-    public Set<Meeting> getMeetings() {
-        return meetings;
-    }
-
-    public void setMeetings(Set<Meeting> meetings) {
         this.meetings = meetings;
     }
 
