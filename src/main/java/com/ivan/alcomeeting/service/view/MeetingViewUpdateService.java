@@ -6,6 +6,7 @@ import com.ivan.alcomeeting.dto.view.MeetingViewDto;
 import com.ivan.alcomeeting.entity.Meeting;
 import com.ivan.alcomeeting.entity.User;
 import com.ivan.alcomeeting.repository.MeetingRepository;
+import com.ivan.alcomeeting.validation.MeetingUpdateValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,18 +21,23 @@ public class MeetingViewUpdateService {
     private final MeetingRepository meetingRepository;
     private final MeetingViewConverter meetingViewConverter;
     private final UserViewService userViewService;
+    private final MeetingUpdateValidation meetingUpdateValidation;
 
     @Autowired
     public MeetingViewUpdateService(MeetingRepository meetingRepository,
                                     MeetingViewConverter meetingViewConverter,
-                                    UserViewService userViewService) {
+                                    UserViewService userViewService,
+                                    MeetingUpdateValidation meetingUpdateValidation) {
         this.meetingRepository = meetingRepository;
         this.meetingViewConverter = meetingViewConverter;
         this.userViewService = userViewService;
+        this.meetingUpdateValidation = meetingUpdateValidation;
     }
 
     public MeetingViewDto updateMeeting(MeetingUpdateDto meetingUpdateDto, Principal principal) {
         Meeting existMeeting = getMeetingEntityById(meetingUpdateDto.getId());
+
+        meetingUpdateValidation.isValid(meetingUpdateDto, existMeeting);
 
         existMeeting.setName(meetingUpdateDto.getName());
         existMeeting.setDate(LocalDateTime.parse(meetingUpdateDto.getDate()));

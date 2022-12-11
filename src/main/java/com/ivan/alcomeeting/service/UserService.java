@@ -7,9 +7,11 @@ import com.ivan.alcomeeting.dto.UserUpdateDto;
 import com.ivan.alcomeeting.entity.Beverage;
 import com.ivan.alcomeeting.entity.Role;
 import com.ivan.alcomeeting.entity.User;
+import com.ivan.alcomeeting.exception.ValidationException;
 import com.ivan.alcomeeting.repository.BeverageRepository;
 import com.ivan.alcomeeting.repository.RoleRepository;
 import com.ivan.alcomeeting.repository.UserRepository;
+import com.ivan.alcomeeting.validation.UserCreationValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,7 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final BeverageRepository beverageRepository;
     private final UserSecurityService userSecurityService;
+    private final UserCreationValidation userCreationValidation;
 
     @Autowired
     public UserService(UserRepository userRepository,
@@ -34,7 +37,8 @@ public class UserService {
                        BeverageService beverageService,
                        RoleRepository roleRepository,
                        BeverageRepository beverageRepository,
-                       UserSecurityService userSecurityService
+                       UserSecurityService userSecurityService,
+                       UserCreationValidation userCreationValidation
     ) {
         this.userRepository = userRepository;
         this.userConverter = userConverter;
@@ -42,6 +46,7 @@ public class UserService {
         this.roleRepository = roleRepository;
         this.beverageRepository = beverageRepository;
         this.userSecurityService = userSecurityService;
+        this.userCreationValidation = userCreationValidation;
 
     }
 
@@ -57,24 +62,30 @@ public class UserService {
         return userConverter.userToUserDto(userEntity);
     }
 
-    public UserDto createUser(UserCreationDto userCreationDto) {
-        List<Beverage> beverages = userCreationDto.getBeverages().stream()
-                .map(beverageRepository::getReferenceById)
-                .collect(Collectors.toList());
+    public UserDto createUser(UserCreationDto userCreationDto) throws ValidationException {
+        Optional<User> userByUserName = userRepository.findUserByUserName(userCreationDto.getUserName());
+        Optional<User> userByEmail = userRepository.findUserByEmail(userCreationDto.getEmail());
 
-        Set<Role> roles = new HashSet<>();
-        roles.add(roleRepository.getReferenceById(USER_ROLE_ID));
+        userCreationValidation.isValid(userCreationDto, userByUserName, userByEmail);
 
-        userCreationDto.setPassword(userSecurityService.encodePassword(userCreationDto.getPassword()));
-        User createUserEntity = userConverter.userCreationDtoToUser(
-                userCreationDto,
-                beverages,
-                roles
-        );
+            List<Beverage> beverages = userCreationDto.getBeverages().stream()
+                    .map(beverageRepository::getReferenceById)
+                    .collect(Collectors.toList());
 
-        userRepository.save(createUserEntity);
+            Set<Role> roles = new HashSet<>();
+            roles.add(roleRepository.getReferenceById(USER_ROLE_ID));
 
-        return userConverter.userToUserDto(createUserEntity);
+            userCreationDto.setPassword(userSecurityService.encodePassword(userCreationDto.getPassword()));
+            User createUserEntity = userConverter.userCreationDtoToUser(
+                    userCreationDto,
+                    beverages,
+                    roles
+            );
+
+            userRepository.save(createUserEntity);
+
+            return userConverter.userToUserDto(createUserEntity);
+
     }
 
     public UserDto updateUser(UserUpdateDto userUpdate) {

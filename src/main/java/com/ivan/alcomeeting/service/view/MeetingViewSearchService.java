@@ -4,8 +4,10 @@ import com.ivan.alcomeeting.converter.view.MeetingViewConverter;
 import com.ivan.alcomeeting.dto.view.MeetingViewDto;
 import com.ivan.alcomeeting.entity.Beverage;
 import com.ivan.alcomeeting.entity.Meeting;
+import com.ivan.alcomeeting.exception.ValidationException;
 import com.ivan.alcomeeting.repository.MeetingRepository;
 import com.ivan.alcomeeting.service.BeverageService;
+import com.ivan.alcomeeting.validation.MeetingSearchValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,17 +24,22 @@ public class MeetingViewSearchService {
     private final MeetingRepository meetingRepository;
     private final BeverageService beverageService;
     private final MeetingViewConverter meetingViewConverter;
+    private final MeetingSearchValidation meetingSearchValidation;
 
     @Autowired
     public MeetingViewSearchService(MeetingRepository meetingRepository,
                                     BeverageService beverageService,
-                                    MeetingViewConverter meetingViewConverter) {
+                                    MeetingViewConverter meetingViewConverter,
+                                    MeetingSearchValidation meetingSearchValidation) {
         this.meetingRepository = meetingRepository;
         this.beverageService = beverageService;
         this.meetingViewConverter = meetingViewConverter;
+        this.meetingSearchValidation = meetingSearchValidation;
     }
 
-    public List<MeetingViewDto> getMeetingsByBeverageName(String beverageName, Principal principal) {
+    public List<MeetingViewDto> getMeetingsByBeverageName(String beverageName, Principal principal) throws ValidationException {
+        meetingSearchValidation.isBeverageValid(beverageName);
+
         Beverage beverage = beverageService.getBeverageEntityByName(beverageName);
 
         return meetingRepository.findAllByBeverage(beverage.getId()).stream()
@@ -40,7 +47,9 @@ public class MeetingViewSearchService {
                 .collect(Collectors.toList());
     }
 
-    public List<MeetingViewDto> getMeetingsByDate(LocalDate date, Principal principal) {
+    public List<MeetingViewDto> getMeetingsByDate(LocalDate date, Principal principal) throws ValidationException {
+        meetingSearchValidation.isDateValid(date);
+
         return meetingRepository.findAllByDateBetween(
                 date.atTime(LocalTime.MIN),
                 date.atTime(LocalTime.MAX)
@@ -49,7 +58,9 @@ public class MeetingViewSearchService {
                 .collect(Collectors.toList());
     }
 
-    public List<MeetingViewDto> getMeetingsByAddress(String address, Principal principal) {
+    public List<MeetingViewDto> getMeetingsByAddress(String address, Principal principal) throws ValidationException {
+        meetingSearchValidation.isAddressValid(address);
+
         return meetingRepository.findAllByAddress(address).stream()
                 .map(meeting -> meetingViewConverter.meetingToMeetingViewDto(meeting, isOwner(principal, meeting)))
                 .collect(Collectors.toList());

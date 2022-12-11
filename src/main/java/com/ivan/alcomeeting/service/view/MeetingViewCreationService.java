@@ -7,8 +7,10 @@ import com.ivan.alcomeeting.dto.view.MeetingViewDto;
 import com.ivan.alcomeeting.entity.Beverage;
 import com.ivan.alcomeeting.entity.Meeting;
 import com.ivan.alcomeeting.entity.User;
+import com.ivan.alcomeeting.exception.ValidationException;
 import com.ivan.alcomeeting.repository.BeverageRepository;
 import com.ivan.alcomeeting.repository.MeetingRepository;
+import com.ivan.alcomeeting.validation.MeetingCreationValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,23 +26,28 @@ public class MeetingViewCreationService {
     private final MeetingViewConverter meetingViewConverter;
     private final UserViewService userViewService;
     private final BeverageRepository beverageRepository;
+    private final MeetingCreationValidation meetingCreationValidation;
 
 
     @Autowired
     public MeetingViewCreationService(MeetingRepository meetingRepository,
-                              MeetingViewConverter meetingViewConverter,
-                              UserViewService userViewService,
-                              BeverageRepository beverageRepository) {
+                                      MeetingViewConverter meetingViewConverter,
+                                      UserViewService userViewService,
+                                      BeverageRepository beverageRepository,
+                                      MeetingCreationValidation meetingCreationValidation) {
         this.meetingRepository = meetingRepository;
         this.meetingViewConverter = meetingViewConverter;
         this.userViewService = userViewService;
         this.beverageRepository = beverageRepository;
+        this.meetingCreationValidation = meetingCreationValidation;
 
     }
 
 
 
-    public MeetingViewDto createMeeting(MeetingCreationDto meetingCreationDto, Principal principal) {
+    public MeetingViewDto createMeeting(MeetingCreationDto meetingCreationDto, Principal principal) throws ValidationException {
+        meetingCreationValidation.isValid(meetingCreationDto);
+
         List<Beverage> allBeverages = meetingCreationDto.getBeverages().stream()
                 .map(beverageRepository::getReferenceById)
                 .collect(Collectors.toList());

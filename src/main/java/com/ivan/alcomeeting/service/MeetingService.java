@@ -5,8 +5,10 @@ import com.ivan.alcomeeting.dto.*;
 import com.ivan.alcomeeting.entity.Beverage;
 import com.ivan.alcomeeting.entity.Meeting;
 import com.ivan.alcomeeting.entity.User;
+import com.ivan.alcomeeting.exception.ValidationException;
 import com.ivan.alcomeeting.repository.BeverageRepository;
 import com.ivan.alcomeeting.repository.MeetingRepository;
+import com.ivan.alcomeeting.validation.MeetingDeleteValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,18 +30,21 @@ public class MeetingService {
     private final UserService userService;
     private final BeverageService beverageService;
     private final BeverageRepository beverageRepository;
+    private final MeetingDeleteValidation meetingDeleteValidation;
 
     @Autowired
     public MeetingService(MeetingRepository meetingRepository,
                           MeetingConverter meetingConverter,
                           UserService userService,
                           BeverageService beverageService,
-                          BeverageRepository beverageRepository) {
+                          BeverageRepository beverageRepository,
+                          MeetingDeleteValidation meetingDeleteValidation) {
         this.meetingRepository = meetingRepository;
         this.meetingConverter = meetingConverter;
         this.userService = userService;
         this.beverageService = beverageService;
         this.beverageRepository = beverageRepository;
+        this.meetingDeleteValidation = meetingDeleteValidation;
     }
 
     public MeetingDto getMeetingById(Long meetingId) {
@@ -85,7 +90,9 @@ public class MeetingService {
 
 
     @Transactional
-    public void deleteMeeting(Long meetingId) {
+    public void deleteMeeting(Long meetingId) throws ValidationException {
+        meetingDeleteValidation.isValid(meetingId);
+
         meetingRepository.deleteMeetingFromMeetingsUsers(meetingId);
 
         meetingRepository.deleteMeetingFromMeetingsBeverages(meetingId);

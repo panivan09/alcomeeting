@@ -46,6 +46,7 @@ public class MeetingUpdateController {
     public String updateMeeting(@ModelAttribute("meetingUpdateDto") MeetingUpdateDto meetingUpdateDto,
                                 Principal principal,
                                 RedirectAttributes redirectAttributes){
+
         MeetingViewDto meetingViewDto = meetingViewUpdateService.updateMeeting(meetingUpdateDto, principal);
 
         redirectAttributes.addAttribute("meetingId", meetingViewDto.getId());

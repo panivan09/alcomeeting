@@ -1,6 +1,7 @@
 package com.ivan.alcomeeting.controller.pages;
 
 import com.ivan.alcomeeting.dto.MeetingCreationDto;
+import com.ivan.alcomeeting.exception.ValidationException;
 import com.ivan.alcomeeting.service.BeverageService;
 import com.ivan.alcomeeting.service.MeetingService;
 import com.ivan.alcomeeting.service.view.MeetingViewCreationService;
@@ -49,7 +50,7 @@ public class MeetingCreationController {
     @PostMapping
     @PreAuthorize("hasAuthority('WRITE')")
     public String createMeeting(@ModelAttribute("meetingCreationDto") MeetingCreationDto meeting,
-                               Principal principal){
+                               Principal principal) throws ValidationException {
         meetingViewCreationService.createMeeting(meeting, principal);
 
         return "redirect:main";

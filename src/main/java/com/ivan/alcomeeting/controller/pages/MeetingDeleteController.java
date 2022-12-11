@@ -1,5 +1,6 @@
 package com.ivan.alcomeeting.controller.pages;
 
+import com.ivan.alcomeeting.exception.ValidationException;
 import com.ivan.alcomeeting.service.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,7 +22,7 @@ public class MeetingDeleteController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
-    public String deleteMeeting(@RequestParam Long meetingId) {
+    public String deleteMeeting(@RequestParam Long meetingId) throws ValidationException {
         meetingService.deleteMeeting(meetingId);
 
         return "redirect:/thyme/main";

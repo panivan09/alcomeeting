@@ -132,12 +132,16 @@
 </div>
 
 <br>
+<div align="center">
+    <a th:href="@{/thyme/main}" class="btn btn-primary ml-2" >Back to main page</a>
+</div>
+<br>
 
 <div class="container registration">
     <div class="row">
         <div class="col-sm-4 col-sm-4 col-sm-4 container justify-content-center card">
           <p></p>
-            <h3 class="text-sm-center">Edit Appointment</h3>
+            <h4 class="text-sm-center">Edit Appointment</h4>
             <div class="card-body">
                 <form action="#" th:action="@{/thyme/meeting/update}" th:object="${meetingUpdateDto}" method="post">
 
@@ -192,9 +196,6 @@
 </div>
 
 
-<p></p>
-<div align="center">
-<a th:href="@{/thyme/main}" class="btn btn-primary ml-2" >Back to main page</a>
-</div>
+
 
 </html>

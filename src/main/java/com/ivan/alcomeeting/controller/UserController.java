@@ -3,6 +3,7 @@ package com.ivan.alcomeeting.controller;
 import com.ivan.alcomeeting.dto.UserCreationDto;
 import com.ivan.alcomeeting.dto.UserDto;
 import com.ivan.alcomeeting.dto.UserUpdateDto;
+import com.ivan.alcomeeting.exception.ValidationException;
 import com.ivan.alcomeeting.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,7 +45,7 @@ public class UserController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('WRITE')")
-    public UserDto createUser(@RequestBody UserCreationDto userCreationDto){
+    public UserDto createUser(@RequestBody UserCreationDto userCreationDto) throws ValidationException {
         return userService.createUser(userCreationDto);
     }
 

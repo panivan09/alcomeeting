@@ -3,6 +3,7 @@ package com.ivan.alcomeeting.controller;
 import com.ivan.alcomeeting.dto.MeetingCreationDto;
 import com.ivan.alcomeeting.dto.MeetingDto;
 import com.ivan.alcomeeting.dto.MeetingUpdateDto;
+import com.ivan.alcomeeting.exception.ValidationException;
 import com.ivan.alcomeeting.service.MeetingService;
 import com.ivan.alcomeeting.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +70,7 @@ public class MeetingController {
     }
 
     @DeleteMapping("{meetingId}")
-    public void deleteMeeting(@PathVariable Long meetingId){
+    public void deleteMeeting(@PathVariable Long meetingId) throws ValidationException {
         meetingService.deleteMeeting(meetingId);
     }
 

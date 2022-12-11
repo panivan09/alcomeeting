@@ -2,6 +2,7 @@ package com.ivan.alcomeeting.controller.pages;
 
 
 import com.ivan.alcomeeting.dto.UserCreationDto;
+import com.ivan.alcomeeting.exception.ValidationException;
 import com.ivan.alcomeeting.service.BeverageService;
 import com.ivan.alcomeeting.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String registerUser(@ModelAttribute("userCreationDto") UserCreationDto user){
+    public String registerUser(@ModelAttribute("userCreationDto") UserCreationDto user) throws ValidationException {
         userService.createUser(user);
 
         return "redirect:main";

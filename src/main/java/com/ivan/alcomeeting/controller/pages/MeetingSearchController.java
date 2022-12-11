@@ -1,5 +1,6 @@
 package com.ivan.alcomeeting.controller.pages;
 
+import com.ivan.alcomeeting.exception.ValidationException;
 import com.ivan.alcomeeting.service.view.MeetingViewSearchService;
 import com.ivan.alcomeeting.service.view.UserViewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class MeetingSearchController {
     @PreAuthorize("hasAuthority('READ')")
     public String showMeetingsByBeverage(@RequestParam String beverageName,
                                          Model model,
-                                         Principal principal){
+                                         Principal principal) throws ValidationException {
         model.addAttribute("meetings", meetingViewSearchService.getMeetingsByBeverageName(beverageName, principal));
         model.addAttribute("loggedUserFullName", userViewService.getLoggedUserFullName(principal.getName()));
 
@@ -43,7 +44,7 @@ public class MeetingSearchController {
     @PreAuthorize("hasAuthority('READ')")
     public String showMeetingsByDate(@RequestParam String date,
                                      Model model,
-                                     Principal principal) {
+                                     Principal principal) throws ValidationException {
         model.addAttribute("meetings", meetingViewSearchService.getMeetingsByDate(
                 LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")),
                 principal));
@@ -56,7 +57,7 @@ public class MeetingSearchController {
     @PreAuthorize("hasAuthority('READ')")
     public String showMeetingsByAddress(@RequestParam String address,
                                         Model model,
-                                        Principal principal) {
+                                        Principal principal) throws ValidationException {
         model.addAttribute("meetings", meetingViewSearchService.getMeetingsByAddress(address, principal));
         model.addAttribute("loggedUserFullName", userViewService.getLoggedUserFullName(principal.getName()));
 
