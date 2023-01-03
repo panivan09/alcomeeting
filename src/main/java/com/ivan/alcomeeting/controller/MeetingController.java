@@ -4,16 +4,19 @@ import com.ivan.alcomeeting.dto.MeetingCreationDto;
 import com.ivan.alcomeeting.dto.MeetingDto;
 import com.ivan.alcomeeting.dto.MeetingUpdateDto;
 import com.ivan.alcomeeting.exception.ValidationException;
-import com.ivan.alcomeeting.service.MeetingService;
-import com.ivan.alcomeeting.service.UserService;
+import com.ivan.alcomeeting.service.meetingservice.MeetingCreationService;
+import com.ivan.alcomeeting.service.meetingservice.MeetingDeleteService;
+import com.ivan.alcomeeting.service.meetingservice.MeetingReadService;
+import com.ivan.alcomeeting.service.meetingservice.MeetingUpdateService;
+import com.ivan.alcomeeting.service.userservice.UserRightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -21,27 +24,30 @@ import java.util.List;
 @RequestMapping("/api/meeting")
 public class MeetingController {
 
-    private final MeetingService meetingService;
-    private final UserService userService;
+    private final MeetingReadService meetingReadService;
+    private final MeetingCreationService meetingCreationService;
+    private final MeetingUpdateService meetingUpdateService;
+    private final MeetingDeleteService meetingDeleteService;
+    private final UserRightService userRightService;
+
 
     @Autowired
-    public MeetingController(MeetingService meetingService,
-                             UserService userService) {
-        this.meetingService = meetingService;
-        this.userService = userService;
+    public MeetingController(MeetingReadService meetingReadService,
+                             MeetingCreationService meetingCreationService,
+                             MeetingUpdateService meetingUpdateService,
+                             MeetingDeleteService meetingDeleteService,
+                             UserRightService userRightService) {
+        this.meetingReadService = meetingReadService;
+        this.meetingCreationService = meetingCreationService;
+        this.meetingUpdateService = meetingUpdateService;
+        this.meetingDeleteService = meetingDeleteService;
+        this.userRightService = userRightService;
     }
-    // CRUD endpoints
-    // get all meetings -> List<MeetingDto> +
-    // get meeting by id -> MeetingDto +
-    // create meeting -> MeetingDto ???????????????????????????????
-    // remove meeting -> void +
-    // update meeting -> MeetingDto +
-    // find meetings by values -> List<MeetingDto> ASK ANDRII HOW TO DO IT
 
     @GetMapping("/bulk")
     @PreAuthorize("hasAuthority('READ')")
     public List<MeetingDto> getAllMeetings(){
-        return meetingService.getAllMeetings();
+        return meetingReadService.getAllMeetings();
     }
 
     /**
@@ -52,26 +58,32 @@ public class MeetingController {
     @GetMapping("{meetingId}")
     @PreAuthorize("hasAuthority('READ')")
     public MeetingDto getMeetingById(@PathVariable Long meetingId){
-       return meetingService.getMeetingById(meetingId);
+       return meetingReadService.getMeetingById(meetingId);
     }
 
-//    @PostMapping
-//    public MeetingDto createMeeting(@RequestBody MeetingCreationDto meetingCreationDto, Principal principal){
-//        return meetingService.createMeeting(meetingCreationDto, principal);
-//    }
+    @PostMapping
+    @PreAuthorize("hasAuthority('WRITE')")
+    public MeetingDto createMeeting(@Valid @RequestBody MeetingCreationDto meetingCreationDto, Principal principal){
+        // check that principal user == owner or principal is admin
+        return meetingCreationService.createMeeting(meetingCreationDto, principal);
+    }
 
-    /**
-     * If this method receive a "meetingUpdateDto" with "null" field, it sets "null" to the field for existing "Meeting".
-     */
     @PutMapping
     @PreAuthorize("hasAuthority('UPDATE')")
-    public MeetingDto updateMeeting(@RequestBody MeetingUpdateDto meetingUpdateDto){
-        return meetingService.updateMeeting(meetingUpdateDto);
+    public MeetingDto updateMeeting(@RequestBody MeetingUpdateDto meetingUpdateDto, Principal principal){
+        //userRightService.isAllowed(Principal principal, Long meetingId) check that principal is or owner or admin
+        userRightService.isAllowed(principal, meetingUpdateDto.getId());
+
+        return meetingUpdateService.updateMeeting(meetingUpdateDto);
     }
 
     @DeleteMapping("{meetingId}")
-    public void deleteMeeting(@PathVariable Long meetingId) throws ValidationException {
-        meetingService.deleteMeeting(meetingId);
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    public void deleteMeeting(@PathVariable Long meetingId, Principal principal) throws ValidationException {
+        //userRightService.isAllowed(Principal principal, Long meetingId)
+        userRightService.isAllowed(principal, meetingId);
+
+        meetingDeleteService.deleteMeeting(meetingId);
     }
 
     @PutMapping("/{meetingId}/user")
@@ -79,7 +91,7 @@ public class MeetingController {
     public MeetingDto addUser(@PathVariable("meetingId") Long meetingId,
                                        @RequestParam Long userId){
 
-        return meetingService.addUser(meetingId, userId);
+        return meetingUpdateService.addUser(meetingId, userId);
     }
 
     @DeleteMapping("/{meetingId}/user")
@@ -87,28 +99,26 @@ public class MeetingController {
     public MeetingDto deleteUser(@PathVariable("meetingId") Long meetingId,
                                  @RequestParam Long userId){
 
-        return meetingService.deleteUser(meetingId, userId);
+        return meetingUpdateService.deleteUser(meetingId, userId);
     }
 
     @GetMapping("/search/beverage")
     @PreAuthorize("hasAuthority('READ')")
     public List<MeetingDto> getAllMeetingsByBeverage(@RequestParam Long beverageId){
-        return meetingService.getAllMeetingsByBeverage(beverageId);
+        return meetingReadService.getAllMeetingsByBeverage(beverageId);
     }
 
-    //TODO: change "LocalDate" on "LocalDateTime"
     @GetMapping("/search/date")
     @PreAuthorize("hasAuthority('READ')")
     public List<MeetingDto> getAllMeetingsByDate(
             @RequestParam
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
-//            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime date){
-        return meetingService.getAllMeetingsByDate(date);
+        return meetingReadService.getAllMeetingsByDate(date);
     }
 
     @GetMapping("/search/address")
     @PreAuthorize("hasAuthority('READ')")
     public List<MeetingDto> getALlMeetingsByPlace(@RequestParam String address){
-        return meetingService.getALlMeetingsByAddress(address);
+        return meetingReadService.getALlMeetingsByAddress(address);
     }
 }

@@ -7,7 +7,7 @@ import com.ivan.alcomeeting.entity.Meeting;
 import com.ivan.alcomeeting.exception.ValidationException;
 import com.ivan.alcomeeting.repository.MeetingRepository;
 import com.ivan.alcomeeting.service.BeverageService;
-import com.ivan.alcomeeting.validation.MeetingSearchValidation;
+import com.ivan.alcomeeting.validation.view.MeetingSearchValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,21 +24,21 @@ public class MeetingViewSearchService {
     private final MeetingRepository meetingRepository;
     private final BeverageService beverageService;
     private final MeetingViewConverter meetingViewConverter;
-    private final MeetingSearchValidation meetingSearchValidation;
+    private final MeetingSearchValidator meetingSearchValidator;
 
     @Autowired
     public MeetingViewSearchService(MeetingRepository meetingRepository,
                                     BeverageService beverageService,
                                     MeetingViewConverter meetingViewConverter,
-                                    MeetingSearchValidation meetingSearchValidation) {
+                                    MeetingSearchValidator meetingSearchValidator) {
         this.meetingRepository = meetingRepository;
         this.beverageService = beverageService;
         this.meetingViewConverter = meetingViewConverter;
-        this.meetingSearchValidation = meetingSearchValidation;
+        this.meetingSearchValidator = meetingSearchValidator;
     }
 
     public List<MeetingViewDto> getMeetingsByBeverageName(String beverageName, Principal principal) throws ValidationException {
-        meetingSearchValidation.isBeverageValid(beverageName);
+        meetingSearchValidator.validate(beverageName);
 
         Beverage beverage = beverageService.getBeverageEntityByName(beverageName);
 
@@ -48,7 +48,7 @@ public class MeetingViewSearchService {
     }
 
     public List<MeetingViewDto> getMeetingsByDate(LocalDate date, Principal principal) throws ValidationException {
-        meetingSearchValidation.isDateValid(date);
+        meetingSearchValidator.isDateValid(date);
 
         return meetingRepository.findAllByDateBetween(
                 date.atTime(LocalTime.MIN),
@@ -59,7 +59,7 @@ public class MeetingViewSearchService {
     }
 
     public List<MeetingViewDto> getMeetingsByAddress(String address, Principal principal) throws ValidationException {
-        meetingSearchValidation.isAddressValid(address);
+        meetingSearchValidator.isAddressValid(address);
 
         return meetingRepository.findAllByAddress(address).stream()
                 .map(meeting -> meetingViewConverter.meetingToMeetingViewDto(meeting, isOwner(principal, meeting)))

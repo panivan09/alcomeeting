@@ -1,7 +1,8 @@
 package com.ivan.alcomeeting.controller.pages;
 
 import com.ivan.alcomeeting.exception.ValidationException;
-import com.ivan.alcomeeting.service.MeetingService;
+import com.ivan.alcomeeting.service.meetingservice.MeetingDeleteService;
+import com.ivan.alcomeeting.service.meetingservice.MeetingReadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -12,18 +13,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/thyme/meeting/delete")
 public class MeetingDeleteController {
-
-    private final MeetingService meetingService;
+    private final MeetingDeleteService meetingDeleteService;
 
     @Autowired
-    public MeetingDeleteController(MeetingService meetingService) {
-        this.meetingService = meetingService;
+    public MeetingDeleteController(MeetingDeleteService meetingDeleteService) {
+        this.meetingDeleteService = meetingDeleteService;
     }
+
+
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public String deleteMeeting(@RequestParam Long meetingId) throws ValidationException {
-        meetingService.deleteMeeting(meetingId);
+        meetingDeleteService.deleteMeeting(meetingId);
 
         return "redirect:/thyme/main";
     }

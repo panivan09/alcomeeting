@@ -4,7 +4,7 @@ package com.ivan.alcomeeting.controller.pages;
 import com.ivan.alcomeeting.dto.UserCreationDto;
 import com.ivan.alcomeeting.exception.ValidationException;
 import com.ivan.alcomeeting.service.BeverageService;
-import com.ivan.alcomeeting.service.UserService;
+import com.ivan.alcomeeting.service.userservice.UserCreationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.*;
 public class RegistrationController {
 
     private final BeverageService beverageService;
-    private final UserService userService;
+    private final UserCreationService userCreationService;
 
     @Autowired
     public RegistrationController(BeverageService beverageService,
-                                  UserService userService) {
+                                  UserCreationService userCreationService) {
         this.beverageService = beverageService;
-        this.userService = userService;
+        this.userCreationService = userCreationService;
     }
 
     @GetMapping
@@ -37,7 +37,7 @@ public class RegistrationController {
 
     @PostMapping
     public String registerUser(@ModelAttribute("userCreationDto") UserCreationDto user) throws ValidationException {
-        userService.createUser(user);
+        userCreationService.createUser(user);
 
         return "redirect:main";
     }

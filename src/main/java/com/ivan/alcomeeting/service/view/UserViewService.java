@@ -9,15 +9,12 @@ import java.util.Optional;
 
 @Service
 public class UserViewService {
-
     private final UserRepository userRepository;
 
     @Autowired
     public UserViewService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
-
 
 
     public User getUserByUserName(String userName) {

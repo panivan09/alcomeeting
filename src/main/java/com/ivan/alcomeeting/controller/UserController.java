@@ -1,10 +1,10 @@
 package com.ivan.alcomeeting.controller;
 
-import com.ivan.alcomeeting.dto.UserCreationDto;
 import com.ivan.alcomeeting.dto.UserDto;
 import com.ivan.alcomeeting.dto.UserUpdateDto;
-import com.ivan.alcomeeting.exception.ValidationException;
-import com.ivan.alcomeeting.service.UserService;
+import com.ivan.alcomeeting.service.userservice.UserDeleteService;
+import com.ivan.alcomeeting.service.userservice.UserReadService;
+import com.ivan.alcomeeting.service.userservice.UserUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -12,41 +12,32 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/user")
+@RequestMapping("/api/user")
 public class UserController {
 
-    private final UserService userService;
+    private final UserReadService userReadService;
+    private final UserUpdateService userUpdateService;
+    private final UserDeleteService userDeleteService;
 
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(UserReadService userReadService,
+                          UserUpdateService userUpdateService,
+                          UserDeleteService userDeleteService) {
+        this.userReadService = userReadService;
+        this.userUpdateService = userUpdateService;
+        this.userDeleteService = userDeleteService;
     }
 
     @GetMapping(path = "{userId}")
     @PreAuthorize("hasAuthority('READ')")
     public UserDto getUserById(@PathVariable("userId") Long userId){
-        return userService.getUserById(userId);
+        return userReadService.getUserById(userId);
     }
-
-    // CRUD endpoints
-    // get all users +
-    // create user ??????????????????????????
-    // update user +
-    // remove user +
-    // add beverage (id) +
-    // remove beverage (id) +
 
     @GetMapping("/bulk")
-    @PreAuthorize("hasAuthority('READ')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<UserDto> getAllUsers(){
-        return userService.getAllUsers();
-    }
-
-
-    @PostMapping
-    @PreAuthorize("hasAuthority('WRITE')")
-    public UserDto createUser(@RequestBody UserCreationDto userCreationDto) throws ValidationException {
-        return userService.createUser(userCreationDto);
+        return userReadService.getAllUsers();
     }
 
     /**
@@ -55,29 +46,29 @@ public class UserController {
     @PutMapping
     @PreAuthorize("hasAuthority('UPDATE')")
     public UserDto updateUser(@RequestBody UserUpdateDto userUpdate){
-        return userService.updateUser(userUpdate);
+        return userUpdateService.updateUser(userUpdate);
     }
 
     @DeleteMapping("{userId}")
     @PreAuthorize("hasAuthority('DELETE')")
     public void deleteUser(@PathVariable Long userId){
-        userService.deleteUser(userId);
+        userDeleteService.deleteUser(userId);
     }
 
-    @PutMapping( "/{userId}/beverage/")
+    @PutMapping( "/{userId}/beverage")
     @PreAuthorize("hasAuthority('WRITE')")
     public UserDto addBeverage(@PathVariable("userId") Long userId,
                                    @RequestParam Long beverageId) {
 
-        return userService.addBeverage(userId, beverageId);
+        return userUpdateService.addBeverage(userId, beverageId);
     }
 
-    @DeleteMapping("/{userId}/beverage/")
+    @DeleteMapping("/{userId}/beverage")
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public UserDto deleteBeverage(@PathVariable("userId") Long userId,
                                   @RequestParam Long beverageId){
 
-        return userService.deleteBeverage(userId, beverageId);
+        return userUpdateService.deleteBeverage(userId, beverageId);
     }
 
 

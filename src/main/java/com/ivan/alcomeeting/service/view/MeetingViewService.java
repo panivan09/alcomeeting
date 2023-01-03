@@ -41,8 +41,6 @@ public class MeetingViewService {
     }
 
 
-
-
     private boolean isOwner(Principal principal, Meeting meeting) {
         return Objects.equals(meeting.getMeetingOwner().getUserName(), principal.getName());
     }

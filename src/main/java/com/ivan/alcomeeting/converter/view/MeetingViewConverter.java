@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Component
 public class MeetingViewConverter {
 
-    public MeetingViewDto meetingToMeetingViewDto(Meeting meeting, boolean isOwner){
+    public MeetingViewDto meetingToMeetingViewDto(Meeting meeting, boolean isOwner) {
         MeetingViewDto meetingViewDto = new MeetingViewDto();
 
         meetingViewDto.setId(meeting.getId());
@@ -39,10 +39,9 @@ public class MeetingViewConverter {
         return meetingViewDto;
     }
 
-    public Meeting meetingCreationDtoToMeeting(
-            MeetingCreationDto meetingCreationDto,
-            List<Beverage> beverages,
-            User owner) {
+    public Meeting meetingCreationDtoToMeeting(MeetingCreationDto meetingCreationDto,
+                                               List<Beverage> beverages,
+                                               User owner) {
 
         Meeting meeting = new Meeting();
         Set<User> participates = new HashSet<>();
@@ -53,7 +52,6 @@ public class MeetingViewConverter {
         meeting.setAddress(meetingCreationDto.getAddress());
         meeting.setMeetingOwner(owner);
         meeting.setParticipates(participates);
-        meeting.setMeetingOwner(owner);
         meeting.setBeverages(new HashSet<>(beverages));
 
         return meeting;

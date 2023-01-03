@@ -2,7 +2,6 @@ package com.ivan.alcomeeting.controller.pages;
 
 
 import com.ivan.alcomeeting.service.view.MeetingViewService;
-import com.ivan.alcomeeting.service.UserService;
 import com.ivan.alcomeeting.service.view.UserViewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

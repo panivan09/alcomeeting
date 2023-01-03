@@ -1,4 +1,4 @@
-package com.ivan.alcomeeting.validation;
+package com.ivan.alcomeeting.validation.view;
 
 import com.ivan.alcomeeting.exception.ValidationException;
 import org.springframework.stereotype.Component;
@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 
 @Component
-public class MeetingSearchValidation {
+public class MeetingSearchValidator {
 
-    public void isBeverageValid(String beverage) throws ValidationException {
+    public void validate(String beverage) throws ValidationException {
         ValidationUtils.validateNotNullOrEmpty(beverage, "Beverage should not be null or empty" );
     }
 

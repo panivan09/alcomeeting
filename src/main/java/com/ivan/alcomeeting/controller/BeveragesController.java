@@ -11,12 +11,6 @@ import java.util.List;
 @RestController
 @RequestMapping("api/beverage")
 public class BeveragesController {
-    // get all beverages +
-    // get by id +
-    // create beverage +
-    // update beverage +
-    // remove beverage +
-
     private final BeverageService beverageService;
 
     @Autowired

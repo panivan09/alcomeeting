@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -18,23 +19,23 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/thyme/registration", "/static/css/*", "/js/*").permitAll()
+                .antMatchers("/", "/thyme/registration", "/api/user/registration", "/api/user/bulk", "/static/css/*", "/js/*").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
-                .formLogin()
-                    .loginPage("/security/login") // url of the PAGE
-                    .loginProcessingUrl("/security/login") // url of endpoint to process POST request (generated)
-                    .permitAll()
-                    .defaultSuccessUrl("/thyme/main", true) // url to redirect on POST request to /login
-                .and()
-                .logout()
-                    .logoutUrl("/logout")
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout","GET"))
-                    .clearAuthentication(true)
-                    .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID")
-                    .logoutSuccessUrl("/security/login")
+        .httpBasic()
+//                .formLogin()
+//                    .loginPage("/security/login").permitAll() // url of the PAGE
+//                    .loginProcessingUrl("/security/login").permitAll() // url of endpoint to process POST request (generated)
+//                    .defaultSuccessUrl("/thyme/main", true) // url to redirect on POST request to /login
+//                .and()
+//                .logout()
+//                    .logoutUrl("/logout")
+//                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout","GET"))
+//                    .clearAuthentication(true)
+//                    .invalidateHttpSession(true)
+//                    .deleteCookies("JSESSIONID")
+//                    .logoutSuccessUrl("/security/login")
         ;
 
         return http.build();
