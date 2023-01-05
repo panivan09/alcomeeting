@@ -1,4 +1,4 @@
-package com.ivan.alcomeeting.service.meetingservice;
+package com.ivan.alcomeeting.service.meeting;
 
 import com.ivan.alcomeeting.converter.MeetingConverter;
 import com.ivan.alcomeeting.dto.MeetingCreationDto;
@@ -9,7 +9,7 @@ import com.ivan.alcomeeting.entity.User;
 import com.ivan.alcomeeting.exception.ValidationException;
 import com.ivan.alcomeeting.repository.BeverageRepository;
 import com.ivan.alcomeeting.repository.MeetingRepository;
-import com.ivan.alcomeeting.service.userservice.UserReadService;
+import com.ivan.alcomeeting.service.user.UserReadService;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -34,8 +34,7 @@ public class MeetingCreationService {
     }
 
     public MeetingDto createMeeting(MeetingCreationDto meetingCreationDto, Principal principal) {
-        // call validation
-        checkLoggedUserWithMeetingOwner(principal.getName(), meetingCreationDto.getMeetingOwner());
+        validateIsAllowedForMeeting(principal.getName(), meetingCreationDto.getMeetingOwner());
 
         List<Beverage> allBeverages = meetingCreationDto.getBeverages().stream()
                 .map(beverageRepository::getReferenceById)
@@ -53,7 +52,7 @@ public class MeetingCreationService {
         return meetingConverter.meetingToMeetingDto(createMeeting);
     }
 
-    private void checkLoggedUserWithMeetingOwner(String loggedUserName, Long meetingOwner){
+    private void validateIsAllowedForMeeting(String loggedUserName, Long meetingOwner){
         Long loggedUserId = userReadService.getUserByUserName(loggedUserName).getId();
 
         if (!meetingOwner.equals(loggedUserId)){

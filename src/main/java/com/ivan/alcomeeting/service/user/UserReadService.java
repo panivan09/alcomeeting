@@ -1,15 +1,13 @@
-package com.ivan.alcomeeting.service.userservice;
+package com.ivan.alcomeeting.service.user;
 
 import com.ivan.alcomeeting.converter.UserConverter;
 import com.ivan.alcomeeting.dto.UserDto;
-import com.ivan.alcomeeting.dto.UserUpdateDto;
-import com.ivan.alcomeeting.entity.Beverage;
 import com.ivan.alcomeeting.entity.User;
+import com.ivan.alcomeeting.exception.EntityNotFoundException;
 import com.ivan.alcomeeting.exception.ValidationException;
 import com.ivan.alcomeeting.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -45,7 +43,7 @@ public class UserReadService {
     public User getUserByUserName(String userName) {
         Optional<User> userEntity = userRepository.findUserByUserName(userName);
         if (userEntity.isEmpty()) {
-            throw new ValidationException("This user doesn't exist by name: " + userName);
+            throw new EntityNotFoundException("This user doesn't exist by name: " + userName);
         }
         return userEntity.get();
     }
@@ -53,7 +51,7 @@ public class UserReadService {
     public User getUserEntityById(Long userId) {
         Optional<User> userEntity = userRepository.findById(userId);
         if (userEntity.isEmpty()) {
-            throw new ValidationException("This user doesn't exist by Id: " + userId);
+            throw new EntityNotFoundException("This user doesn't exist by Id: " + userId);
         }
         return userEntity.get();
     }

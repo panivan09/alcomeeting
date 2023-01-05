@@ -1,8 +1,7 @@
 package com.ivan.alcomeeting.controller.pages;
 
 import com.ivan.alcomeeting.exception.ValidationException;
-import com.ivan.alcomeeting.service.meetingservice.MeetingDeleteService;
-import com.ivan.alcomeeting.service.meetingservice.MeetingReadService;
+import com.ivan.alcomeeting.service.meeting.MeetingDeleteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;

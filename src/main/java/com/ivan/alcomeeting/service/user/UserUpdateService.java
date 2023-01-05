@@ -1,4 +1,4 @@
-package com.ivan.alcomeeting.service.userservice;
+package com.ivan.alcomeeting.service.user;
 
 import com.ivan.alcomeeting.converter.UserConverter;
 import com.ivan.alcomeeting.dto.UserDto;
@@ -7,6 +7,8 @@ import com.ivan.alcomeeting.entity.Beverage;
 import com.ivan.alcomeeting.entity.User;
 import com.ivan.alcomeeting.repository.UserRepository;
 import com.ivan.alcomeeting.service.BeverageService;
+import com.ivan.alcomeeting.validation.UserEmailValidator;
+import com.ivan.alcomeeting.validation.UserPasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,29 +19,52 @@ public class UserUpdateService {
     private final BeverageService beverageService;
     private final UserSecurityService userSecurityService;
     private final UserReadService userReadService;
+    private final UserPasswordValidator userPasswordValidator;
+    private final UserEmailValidator userEmailValidator;
 
     @Autowired
     public UserUpdateService(UserRepository userRepository,
                              UserConverter userConverter,
                              BeverageService beverageService,
                              UserSecurityService userSecurityService,
-                             UserReadService userReadService) {
+                             UserReadService userReadService,
+                             UserPasswordValidator userPasswordValidator,
+                             UserEmailValidator userEmailValidator) {
         this.userRepository = userRepository;
         this.userConverter = userConverter;
         this.beverageService = beverageService;
         this.userSecurityService = userSecurityService;
         this.userReadService = userReadService;
+        this.userPasswordValidator = userPasswordValidator;
+        this.userEmailValidator = userEmailValidator;
     }
 
-    public UserDto updateUser(UserUpdateDto userUpdate) {
+    public UserDto updateUserFullName(UserUpdateDto userUpdate) {
         User existedUser = userReadService.getUserEntityById(userUpdate.getId());
+        // check if userUpdate has the same values as existing. If yes - do nothing
+        updateUserEntity(userUpdate, existedUser);
 
-        setUserFieldsNotNull(userUpdate, existedUser);
+        userRepository.save(existedUser);
 
-        existedUser.setName(userUpdate.getName());
-        existedUser.setLastName(userUpdate.getLastName());
-        existedUser.setEmail(userUpdate.getEmail());
-        existedUser.setPassword(userUpdate.getPassword());
+        return userConverter.userToUserDto(existedUser);
+    }
+
+    public UserDto updateUserPassword(Long userId, String password) {
+        userPasswordValidator.validate(password);
+
+        User existedUser = userReadService.getUserEntityById(userId);
+        existedUser.setPassword(userSecurityService.encodePassword(password));
+
+        userRepository.save(existedUser);
+
+        return userConverter.userToUserDto(existedUser);
+    }
+
+    public UserDto updateUserEmail(Long userId, String email) {
+        userEmailValidator.validate(email);
+
+        User existedUser = userReadService.getUserEntityById(userId);
+        existedUser.setEmail(email);
 
         userRepository.save(existedUser);
 
@@ -67,30 +92,16 @@ public class UserUpdateService {
         return userConverter.userToUserDto(currentUser);
     }
 
-    private void setUserFieldsNotNull(UserUpdateDto userUpdateDto, User existUser){
+    private void updateUserEntity(UserUpdateDto userUpdateDto, User existingUser){
         String name = userUpdateDto.getName();
         String lastName = userUpdateDto.getLastName();
-        String email = userUpdateDto.getEmail();
-        String password = userUpdateDto.getPassword();
 
-        if (name == null || name.isEmpty()){
-            userUpdateDto.setName(existUser.getName());
+        if (name != null){
+            existingUser.setName(name);
         }
 
-        if (lastName == null || lastName.isEmpty()){
-            userUpdateDto.setLastName(existUser.getLastName());
+        if (lastName != null){
+            existingUser.setLastName(lastName);
         }
-
-        if (email == null || email.isEmpty()){
-            userUpdateDto.setEmail(existUser.getEmail());
-        }
-
-        if (password == null || password.isEmpty()){
-            userUpdateDto.setPassword(existUser.getPassword());
-        }else {
-            userUpdateDto.setPassword(userSecurityService.encodePassword(password));
-        }
-
     }
-
 }

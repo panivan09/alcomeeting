@@ -1,4 +1,4 @@
-package com.ivan.alcomeeting.service.userservice;
+package com.ivan.alcomeeting.service.user;
 
 import com.ivan.alcomeeting.converter.UserSecurityConverter;
 import com.ivan.alcomeeting.entity.User;

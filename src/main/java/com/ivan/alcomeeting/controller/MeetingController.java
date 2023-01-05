@@ -4,11 +4,11 @@ import com.ivan.alcomeeting.dto.MeetingCreationDto;
 import com.ivan.alcomeeting.dto.MeetingDto;
 import com.ivan.alcomeeting.dto.MeetingUpdateDto;
 import com.ivan.alcomeeting.exception.ValidationException;
-import com.ivan.alcomeeting.service.meetingservice.MeetingCreationService;
-import com.ivan.alcomeeting.service.meetingservice.MeetingDeleteService;
-import com.ivan.alcomeeting.service.meetingservice.MeetingReadService;
-import com.ivan.alcomeeting.service.meetingservice.MeetingUpdateService;
-import com.ivan.alcomeeting.service.userservice.UserRightService;
+import com.ivan.alcomeeting.service.meeting.MeetingCreationService;
+import com.ivan.alcomeeting.service.meeting.MeetingDeleteService;
+import com.ivan.alcomeeting.service.meeting.MeetingReadService;
+import com.ivan.alcomeeting.service.meeting.MeetingUpdateService;
+import com.ivan.alcomeeting.service.user.UserRightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -64,15 +64,13 @@ public class MeetingController {
     @PostMapping
     @PreAuthorize("hasAuthority('WRITE')")
     public MeetingDto createMeeting(@Valid @RequestBody MeetingCreationDto meetingCreationDto, Principal principal){
-        // check that principal user == owner or principal is admin
         return meetingCreationService.createMeeting(meetingCreationDto, principal);
     }
 
     @PutMapping
     @PreAuthorize("hasAuthority('UPDATE')")
     public MeetingDto updateMeeting(@RequestBody MeetingUpdateDto meetingUpdateDto, Principal principal){
-        //userRightService.isAllowed(Principal principal, Long meetingId) check that principal is or owner or admin
-        userRightService.isAllowed(principal, meetingUpdateDto.getId());
+        userRightService.validateIsAllowedForMeeting(principal, meetingUpdateDto.getId());
 
         return meetingUpdateService.updateMeeting(meetingUpdateDto);
     }
@@ -80,8 +78,7 @@ public class MeetingController {
     @DeleteMapping("{meetingId}")
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public void deleteMeeting(@PathVariable Long meetingId, Principal principal) throws ValidationException {
-        //userRightService.isAllowed(Principal principal, Long meetingId)
-        userRightService.isAllowed(principal, meetingId);
+        userRightService.validateIsAllowedForMeeting(principal, meetingId);
 
         meetingDeleteService.deleteMeeting(meetingId);
     }

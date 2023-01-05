@@ -4,7 +4,7 @@ package com.ivan.alcomeeting.controller.pages;
 import com.ivan.alcomeeting.dto.UserCreationDto;
 import com.ivan.alcomeeting.exception.ValidationException;
 import com.ivan.alcomeeting.service.BeverageService;
-import com.ivan.alcomeeting.service.userservice.UserCreationService;
+import com.ivan.alcomeeting.service.user.UserCreationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

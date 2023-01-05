@@ -3,7 +3,7 @@ package com.ivan.alcomeeting.controller;
 import com.ivan.alcomeeting.dto.UserCreationDto;
 import com.ivan.alcomeeting.dto.UserDto;
 import com.ivan.alcomeeting.exception.ValidationException;
-import com.ivan.alcomeeting.service.userservice.UserCreationService;
+import com.ivan.alcomeeting.service.user.UserCreationService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

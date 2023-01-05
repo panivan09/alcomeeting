@@ -1,4 +1,4 @@
-package com.ivan.alcomeeting.service.userservice;
+package com.ivan.alcomeeting.service.user;
 
 import com.ivan.alcomeeting.converter.UserConverter;
 import com.ivan.alcomeeting.dto.UserCreationDto;
@@ -28,7 +28,7 @@ public class UserCreationService {
     private final RoleRepository roleRepository;
     private final BeverageRepository beverageRepository;
     private final UserSecurityService userSecurityService;
-//    private final UserCreationValidator userCreationValidator;
+//    private final UserCreationValidator userCreationValidator; - using for view
 
     @Autowired
     public UserCreationService(UserRepository userRepository,
@@ -36,14 +36,14 @@ public class UserCreationService {
                                RoleRepository roleRepository,
                                BeverageRepository beverageRepository,
                                UserSecurityService userSecurityService
-//                               UserCreationValidator userCreationValidator
+//                               UserCreationValidator userCreationValidator - using for view
 ) {
         this.userRepository = userRepository;
         this.userConverter = userConverter;
         this.roleRepository = roleRepository;
         this.beverageRepository = beverageRepository;
         this.userSecurityService = userSecurityService;
-//        this.userCreationValidator = userCreationValidator;
+//        this.userCreationValidator = userCreationValidator; - using for view
     }
 
     public UserDto createUser(UserCreationDto userCreationDto) throws ValidationException {
@@ -62,18 +62,17 @@ public class UserCreationService {
         User createUserEntity = userConverter.userCreationDtoToUser(
                 userCreationDto,
                 beverages,
-                roles
-        );
+                roles);
 
         userRepository.save(createUserEntity);
 
         return userConverter.userToUserDto(createUserEntity);
-
     }
 
     private void checkUserEmailIsFree(String email) {
-        Optional<User> userByEmail = userRepository.findUserByEmail(email);
-        userByEmail.ifPresent(a -> { throw new ValidationException("Email is occupied");});
+        userRepository.findUserByEmail(email);
+//        Optional<User> userByEmail = userRepository.findUserByEmail(email);
+//        userByEmail.ifPresent(a -> { throw new ValidationException("Email is occupied");});
     }
 
     private void checkUserNameIsFree(String userName) {

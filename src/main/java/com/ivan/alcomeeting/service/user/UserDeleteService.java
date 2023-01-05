@@ -1,4 +1,4 @@
-package com.ivan.alcomeeting.service.userservice;
+package com.ivan.alcomeeting.service.user;
 
 import com.ivan.alcomeeting.repository.UserRepository;
 import org.springframework.stereotype.Service;

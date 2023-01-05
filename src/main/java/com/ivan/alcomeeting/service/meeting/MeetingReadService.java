@@ -1,22 +1,16 @@
-package com.ivan.alcomeeting.service.meetingservice;
+package com.ivan.alcomeeting.service.meeting;
 
 import com.ivan.alcomeeting.converter.MeetingConverter;
 import com.ivan.alcomeeting.dto.*;
 import com.ivan.alcomeeting.entity.Beverage;
 import com.ivan.alcomeeting.entity.Meeting;
-import com.ivan.alcomeeting.entity.User;
-import com.ivan.alcomeeting.exception.ValidationException;
-import com.ivan.alcomeeting.repository.BeverageRepository;
+import com.ivan.alcomeeting.exception.EntityNotFoundException;
 import com.ivan.alcomeeting.repository.MeetingRepository;
 import com.ivan.alcomeeting.service.BeverageService;
-import com.ivan.alcomeeting.service.userservice.UserReadService;
-import com.ivan.alcomeeting.validation.view.MeetingDeleteValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
@@ -75,7 +69,7 @@ public class MeetingReadService {
     public Meeting getMeetingEntityById(Long meetingId) {
         Optional<Meeting> meetingEntity = meetingRepository.findById(meetingId);
         if (meetingEntity.isEmpty()) {
-            throw new IllegalStateException("Meeting whit id: " + meetingId + " - doesn't exist");
+            throw new EntityNotFoundException("Meeting whit id: " + meetingId + " - doesn't exist");
         }
         return meetingEntity.get();
     }

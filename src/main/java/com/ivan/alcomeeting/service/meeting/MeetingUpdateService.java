@@ -1,4 +1,4 @@
-package com.ivan.alcomeeting.service.meetingservice;
+package com.ivan.alcomeeting.service.meeting;
 
 import com.ivan.alcomeeting.converter.MeetingConverter;
 import com.ivan.alcomeeting.dto.MeetingDto;
@@ -6,7 +6,7 @@ import com.ivan.alcomeeting.dto.MeetingUpdateDto;
 import com.ivan.alcomeeting.entity.Meeting;
 import com.ivan.alcomeeting.entity.User;
 import com.ivan.alcomeeting.repository.MeetingRepository;
-import com.ivan.alcomeeting.service.userservice.UserReadService;
+import com.ivan.alcomeeting.service.user.UserReadService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
