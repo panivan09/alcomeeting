@@ -3,6 +3,7 @@ package com.ivan.alcomeeting.service;
 import com.ivan.alcomeeting.converter.BeverageConverter;
 import com.ivan.alcomeeting.dto.BeverageDto;
 import com.ivan.alcomeeting.entity.Beverage;
+import com.ivan.alcomeeting.exception.EntityNotFoundException;
 import com.ivan.alcomeeting.exception.ValidationException;
 import com.ivan.alcomeeting.repository.BeverageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +77,7 @@ public class BeverageService {
     public Beverage getBeverageEntityById(Long beverageId) {
         Optional<Beverage> beverageById = beverageRepository.findById(beverageId);
         if (beverageById.isEmpty()){
-            throw new ValidationException("The beverage does not exist by Id: " + beverageId);
+            throw new EntityNotFoundException("The beverage does not exist by Id: " + beverageId);
         }
         return beverageById.get();
     }
@@ -84,7 +85,7 @@ public class BeverageService {
     public Beverage getBeverageEntityByName(String beverageName) {
         Optional<Beverage> beverageById = beverageRepository.findByName(beverageName);
         if (beverageById.isEmpty()){
-            throw new ValidationException("The beverage does not exist by Id: " + beverageName);
+            throw new EntityNotFoundException("The beverage does not exist by Id: " + beverageName);
         }
         return beverageById.get();
     }

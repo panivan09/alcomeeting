@@ -2,6 +2,7 @@ package com.ivan.alcomeeting.service.user;
 
 import com.ivan.alcomeeting.converter.UserSecurityConverter;
 import com.ivan.alcomeeting.entity.User;
+import com.ivan.alcomeeting.exception.EntityNotFoundException;
 import com.ivan.alcomeeting.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,10 +30,9 @@ public class UserSecurityService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        //TODO: make right Exception handler...
         Optional<User> userEntity = userRepository.findUserByUserName(userName);
         if (userEntity.isEmpty()){
-            throw new IllegalStateException("Something wrong with User - " + userName);
+            throw new UsernameNotFoundException("User by " + userName + " - not found");
         }
         return userSecurityConverter.userToUserDetails(userEntity.get());
     }
