@@ -10,7 +10,6 @@ import com.ivan.alcomeeting.service.user.UserReadService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 
 @Service
@@ -31,17 +30,13 @@ public class MeetingUpdateService {
     }
 
     public MeetingDto updateMeeting(MeetingUpdateDto meetingUpdateDto) {
-        Meeting existMeeting = meetingReadService.getMeetingEntityById(meetingUpdateDto.getId());
+        Meeting existedMeeting = meetingReadService.getMeetingEntityById(meetingUpdateDto.getId());
 
-        setMeetingFieldsNotNull(meetingUpdateDto, existMeeting);
+        setMeetingFields(meetingUpdateDto, existedMeeting);
 
-        existMeeting.setName(meetingUpdateDto.getName());
-        existMeeting.setDate(LocalDateTime.parse(meetingUpdateDto.getDate()));
-        existMeeting.setAddress(meetingUpdateDto.getAddress());
+        meetingRepository.save(existedMeeting);
 
-        meetingRepository.save(existMeeting);
-
-        return meetingConverter.meetingToMeetingDto(existMeeting);
+        return meetingConverter.meetingToMeetingDto(existedMeeting);
     }
 
     public MeetingDto addUser(Long meetingId, Long userId) {
@@ -64,22 +59,21 @@ public class MeetingUpdateService {
         return meetingConverter.meetingToMeetingDto(currentMeeting);
     }
 
-    private void setMeetingFieldsNotNull(MeetingUpdateDto meetingUpdateDto, Meeting existMeeting) {
+    private void setMeetingFields(MeetingUpdateDto meetingUpdateDto, Meeting existMeeting) {
         String meetingName = meetingUpdateDto.getName();
         String meetingDate = meetingUpdateDto.getDate();
         String meetingAddress = meetingUpdateDto.getAddress();
 
-        if (meetingName == null || meetingName.isEmpty()){
-            meetingUpdateDto.setName(existMeeting.getName());
+        if (meetingName != null && !meetingName.isEmpty()){
+            existMeeting.setName(meetingName);
         }
 
-        if (meetingDate == null || meetingDate.isEmpty()){
-            String format = existMeeting.getDate().format(DateTimeFormatter.ISO_DATE_TIME);
-            meetingUpdateDto.setDate(format);
+        if (meetingDate != null && !meetingDate.isEmpty()){
+            existMeeting.setDate(LocalDateTime.parse(meetingDate));
         }
 
-        if (meetingAddress == null || meetingAddress.isEmpty()){
-            meetingUpdateDto.setAddress(existMeeting.getAddress());
+        if (meetingAddress != null && !meetingAddress.isEmpty()){
+            existMeeting.setAddress(meetingAddress);
         }
     }
 }

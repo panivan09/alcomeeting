@@ -73,7 +73,4 @@ public class MeetingReadService {
         }
         return meetingEntity.get();
     }
-
-
-
 }
