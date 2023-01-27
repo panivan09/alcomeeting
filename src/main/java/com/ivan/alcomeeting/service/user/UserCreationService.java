@@ -48,17 +48,22 @@ public class UserCreationService {
 
     public UserDto createUser(UserCreationDto userCreationDto) throws ValidationException {
 //        userCreationValidator.validate(userCreationDto); - using for view
-        checkUserNameIsFree(userCreationDto.getUserName());
         checkUserEmailIsFree(userCreationDto.getEmail());
+        checkUserNameIsFree(userCreationDto.getUserName());
 
         List<Beverage> beverages = userCreationDto.getBeverages().stream()
                 .map(beverageRepository::getReferenceById)
                 .collect(Collectors.toList());
 
         Set<Role> roles = new HashSet<>();
-        roles.add(roleRepository.getReferenceById(USER_ROLE_ID));
+        if(beverages.size() > 2){
+            roles.add(new Role());
+        } else {
+            roles.add(roleRepository.getReferenceById(USER_ROLE_ID));
+        }
 
         userCreationDto.setPassword(userSecurityService.encodePassword(userCreationDto.getPassword()));
+
         User createUserEntity = userConverter.userCreationDtoToUser(
                 userCreationDto,
                 beverages,
@@ -71,8 +76,8 @@ public class UserCreationService {
 
     private void checkUserEmailIsFree(String email) {
         userRepository.findUserByEmail(email);
-//        Optional<User> userByEmail = userRepository.findUserByEmail(email);
-//        userByEmail.ifPresent(a -> { throw new ValidationException("Email is occupied");});
+        Optional<User> userByEmail = userRepository.findUserByEmail(email);
+        userByEmail.ifPresent(a -> { throw new ValidationException("Email is occupied");});
     }
 
     private void checkUserNameIsFree(String userName) {

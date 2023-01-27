@@ -21,5 +21,4 @@ public class MeetingDeleteService {
 
         meetingRepository.deleteById(meetingId);
     }
-
 }

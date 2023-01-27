@@ -1,7 +1,7 @@
 package com.ivan.alcomeeting.controller;
 
 import com.ivan.alcomeeting.dto.UserDto;
-import com.ivan.alcomeeting.dto.UserUpdateDto;
+import com.ivan.alcomeeting.dto.UserFullNameDto;
 import com.ivan.alcomeeting.service.user.UserDeleteService;
 import com.ivan.alcomeeting.service.user.UserReadService;
 import com.ivan.alcomeeting.service.user.UserRightService;
@@ -49,11 +49,11 @@ public class UserController {
     @PutMapping("/{userId}/fullname")
     @PreAuthorize("hasAuthority('UPDATE')")
     public UserDto updateUserFullName(@PathVariable("userId") Long userId,
-                                      @Valid @RequestBody UserUpdateDto userUpdate,
+                                      @Valid @RequestBody UserFullNameDto userUpdate,
                                       Principal principal){
-        userRightService.validateIsAllowedForUser(principal, userUpdate.getId());
+        userRightService.validateIsAllowedForUser(principal, userId);
 
-        return userUpdateService.updateUserFullName(userUpdate);
+        return userUpdateService.updateUserFullName(userId, userUpdate);
     }
 
     @PutMapping("/{userId}/password")

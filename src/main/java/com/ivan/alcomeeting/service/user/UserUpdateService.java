@@ -2,7 +2,7 @@ package com.ivan.alcomeeting.service.user;
 
 import com.ivan.alcomeeting.converter.UserConverter;
 import com.ivan.alcomeeting.dto.UserDto;
-import com.ivan.alcomeeting.dto.UserUpdateDto;
+import com.ivan.alcomeeting.dto.UserFullNameDto;
 import com.ivan.alcomeeting.entity.Beverage;
 import com.ivan.alcomeeting.entity.User;
 import com.ivan.alcomeeting.repository.UserRepository;
@@ -39,14 +39,14 @@ public class UserUpdateService {
         this.userEmailValidator = userEmailValidator;
     }
 
-    public UserDto updateUserFullName(UserUpdateDto userUpdate) {
-        User existedUser = userReadService.getUserEntityById(userUpdate.getId());
+    public UserDto updateUserFullName(Long userId, UserFullNameDto userUpdate) {
+        User existingUser = userReadService.getUserEntityById(userId);
         // check if userUpdate has the same values as existing. If yes - do nothing
-        updateUserEntity(userUpdate, existedUser);
+        updateUserFullName(userUpdate, existingUser);
 
-        userRepository.save(existedUser);
+        userRepository.save(existingUser);
 
-        return userConverter.userToUserDto(existedUser);
+        return userConverter.userToUserDto(existingUser);
     }
 
     public UserDto updateUserPassword(Long userId, String password) {
@@ -79,7 +79,6 @@ public class UserUpdateService {
         userRepository.save(currentUser);
 
         return userConverter.userToUserDto(currentUser);
-
     }
 
     public UserDto deleteBeverage(Long userId, Long beverageId) {
@@ -92,9 +91,9 @@ public class UserUpdateService {
         return userConverter.userToUserDto(currentUser);
     }
 
-    private void updateUserEntity(UserUpdateDto userUpdateDto, User existingUser){
-        String name = userUpdateDto.getName();
-        String lastName = userUpdateDto.getLastName();
+    private void updateUserFullName(UserFullNameDto userFullNameDto, User existingUser){
+        String name = userFullNameDto.getName();
+        String lastName = userFullNameDto.getLastName();
 
         if (name != null){
             existingUser.setName(name);
