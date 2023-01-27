@@ -31,7 +31,6 @@ public class BeverageService {
                 .map(beverageConverter::beverageToBeverageDto)
                 .sorted(Comparator.comparing(BeverageDto::getName))
                 .collect(Collectors.toList());
-
     }
 
     public BeverageDto getBeverageById(Long beverageId) {
@@ -54,14 +53,12 @@ public class BeverageService {
     public BeverageDto updateBeverage(BeverageDto updatedBeverage) {
         Beverage existingBeverage = getBeverageEntityById(updatedBeverage.getId());
 
-        existingBeverage.setName(updatedBeverage.getName());
-        existingBeverage.setDescription(updatedBeverage.getDescription());
+        setBeverageFields(updatedBeverage, existingBeverage);
 
         beverageRepository.save(existingBeverage);
 
         return beverageConverter.beverageToBeverageDto(existingBeverage);
     }
-
 
     @Transactional
     public void deleteBeverage(Long beverageId) {
@@ -90,4 +87,16 @@ public class BeverageService {
         return beverageById.get();
     }
 
+    private void setBeverageFields(BeverageDto updatedBeverage, Beverage existingBeverage) {
+        String beverageName = updatedBeverage.getName();
+        String beverageDescription =updatedBeverage.getDescription();
+
+        if(beverageName != null && !beverageName.isEmpty()) {
+            existingBeverage.setName(updatedBeverage.getName());
+        }
+
+        if (beverageDescription != null && !beverageDescription.isEmpty()) {
+            existingBeverage.setDescription(updatedBeverage.getDescription());
+        }
+    }
 }

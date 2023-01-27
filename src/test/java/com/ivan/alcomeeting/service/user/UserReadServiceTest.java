@@ -106,7 +106,7 @@ class UserReadServiceTest {
     }
 
     @Test
-    public void getUserById_returnEntityNotFoundExceptionIfRepositoryHasNoUser() {
+    public void getUserById_throwEntityNotFoundExceptionIfRepositoryHasNoUser() {
         //Given
         Long userId = 3L;
         String message = "This user doesn't exist by Id: " + userId;
@@ -148,7 +148,7 @@ class UserReadServiceTest {
         List<Long> usersId = List.of(userOneId, userTwoId);
         List<User> expectedUsers = List.of(userOne, userTwo);
 
-        when(userRepository.findAllById(usersId)).thenReturn(expectedUsers);//???????????????????????????????????????????????
+        when(userRepository.findAllById(usersId)).thenReturn(expectedUsers);
 
         //When
         List<User> actualUsers = userReadService.getUserEntitiesByIds(usersId);
