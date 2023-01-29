@@ -20,12 +20,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.when;
 
 class UserReadServiceTest {
-
     @Mock
     private UserRepository userRepository;
     @Mock
     private UserConverter userConverter;
-
     @InjectMocks
     private UserReadService userReadService;
 
@@ -34,10 +32,9 @@ class UserReadServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-
     @Test
     public void getAllUsers_returnsAllUsersDto() {
-        //Given
+        // Given
         User userOne = new User(1L,
                 "Any",
                 "Any",
@@ -64,18 +61,18 @@ class UserReadServiceTest {
 
         when(userConverter.userToUserDto(userOne)).thenReturn(userDtoOne);
         when(userConverter.userToUserDto(userTwo)).thenReturn(userDtoTwo);
-        when(userRepository.findAll()).thenReturn(List.of(userOne, userTwo));//???????????????????????????????????????????????
+        when(userRepository.findAll()).thenReturn(List.of(userOne, userTwo));
 
-        //When
+        // When
         List<UserDto> actual = userReadService.getAllUsers();
 
-        //Then
+        // Then
         assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     public void getUserById_returnUserDtoIfRepositoryHasUser() {
-        //Given
+        // Given
         Long userId = 3L;
         User user = new User(userId,
                 "Any",
@@ -98,15 +95,15 @@ class UserReadServiceTest {
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
         when(userConverter.userToUserDto(user)).thenReturn(expectedUserDto);
 
-        //When
+        // When
         UserDto actualUser = userReadService.getUserById(userId);
 
-        //Then
+        // Then
         assertThat(actualUser).isEqualTo(expectedUserDto);
     }
 
     @Test
-    public void getUserById_throwEntityNotFoundExceptionIfRepositoryHasNoUser() {
+    public void getUserById_throwEntityNotFoundExceptionIfRepositoryDoesNotHaveUser() {
         //Given
         Long userId = 3L;
         String message = "This user doesn't exist by Id: " + userId;
@@ -122,7 +119,7 @@ class UserReadServiceTest {
 
     @Test
     void getUserEntitiesByIds_returnAllUsersEntity() {
-        //Given
+        // Given
         Long userOneId = 1L;
         Long userTwoId = 2L;
 
@@ -150,16 +147,16 @@ class UserReadServiceTest {
 
         when(userRepository.findAllById(usersId)).thenReturn(expectedUsers);
 
-        //When
+        // When
         List<User> actualUsers = userReadService.getUserEntitiesByIds(usersId);
 
-        //Then
+        // Then
         assertThat(actualUsers).isEqualTo(expectedUsers);
     }
 
     @Test
     public void getUserByUserName_returnUserEntityIfRepositoryHasUser() {
-        //Given
+        // Given
         String userName = "UserName";
         User expectedUser = new User(3L,
                 "Any",
@@ -173,22 +170,22 @@ class UserReadServiceTest {
 
         when(userRepository.findUserByUserName(userName)).thenReturn(Optional.of(expectedUser));
 
-        //When
+        // When
         User actualUser = userReadService.getUserByUserName(userName);
 
-        //Then
+        // Then
         assertThat(actualUser).isEqualTo(expectedUser);
     }
 
     @Test
-    public void getUserByUserName_returnEntityNotFoundExceptionIfRepositoryHasNoUser() {
-        //Given
+    public void getUserByUserName_returnEntityNotFoundExceptionIfRepositoryDoesNotHaveUser() {
+        // Given
         String userName = "UserName";
         String message = "This user doesn't exist by name: " + userName;
 
         when(userRepository.findUserByUserName(userName)).thenReturn(Optional.empty());
 
-        //When and Then
+        // When and Then
         assertThatThrownBy(()->{
             userReadService.getUserByUserName(userName);
         }).isInstanceOf(EntityNotFoundException.class)
@@ -197,7 +194,7 @@ class UserReadServiceTest {
 
     @Test
     void getUserEntityById_returnUserEntityIfRepositoryHasUser() {
-        //Given
+        // Given
         Long userId = 3L;
         User expectedUser = new User(userId,
                 "Any",
@@ -211,22 +208,22 @@ class UserReadServiceTest {
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(expectedUser));
 
-        //When
+        // When
         User actualUser = userReadService.getUserEntityById(userId);
 
-        //Then
+        // Then
         assertThat(actualUser).isEqualTo(expectedUser);
     }
 
     @Test
-    public void getUserEntityById_returnEntityNotFoundExceptionIfRepositoryHasNoUser() {
-        //Given
+    public void getUserEntityById_returnEntityNotFoundExceptionIfRepositoryDoesNotHaveUser() {
+        // Given
         Long userId = 3L;
         String message = "This user doesn't exist by Id: " + userId;
 
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        //When and Then
+        // When and Then
         assertThatThrownBy(()->{
             userReadService.getUserEntityById(userId);
         }).isInstanceOf(EntityNotFoundException.class)

@@ -48,7 +48,7 @@ class MeetingCreationServiceTest {
 
     @Test
     void createMeeting_throwValidationExceptionWhenUserDoesNotHaveAccess() {
-        //Given
+        // Given
         Long loggedUserId = 1L;
         Long meetingOwnerId = 3L;
         String loggedUserName = "Poc";
@@ -65,17 +65,15 @@ class MeetingCreationServiceTest {
         when(principal.getName()).thenReturn(loggedUserName);
         when(userReadService.getUserByUserName(loggedUserName)).thenReturn(loggedUser);
 
-        //When and Than
+        // When and Than
         assertThatThrownBy(()-> meetingCreationService.createMeeting(meetingCreationDto, principal))
                 .isInstanceOf(ValidationException.class)
                 .hasMessage(exceptionMessage);
-
-
     }
 
     @Test
     void createMeeting_returnMeetingDtoAfterCreation() {
-        //Given
+        // Given
         Long loggedUserId = 3L;
         Long meetingOwnerId = 3L;
         String loggedUserName = "Poc";
@@ -123,7 +121,7 @@ class MeetingCreationServiceTest {
         when(meetingConverter.meetingCreationDtoToMeeting(meetingCreationDto, allBeverage, user)).thenReturn(meeting);
         when(meetingConverter.meetingToMeetingDto(meeting)).thenReturn(expectedMeeting);
 
-        //When
+        // When
         MeetingDto actual = meetingCreationService.createMeeting(meetingCreationDto, principal);
 
         // Than

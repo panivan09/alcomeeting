@@ -11,7 +11,6 @@ public class ValidationUtils {
         if (value == null || value.isEmpty()){
             throw new ValidationException(message);
         }
-
     }
 
     public static void validateCollectionNotNullOrEmpty(Collection value, String message) throws ValidationException {
