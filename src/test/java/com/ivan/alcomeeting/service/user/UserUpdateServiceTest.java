@@ -181,13 +181,15 @@ class UserUpdateServiceTest {
     void updateUserPassword_throwValidationExceptionIfValidatorFailsCheck() {
         //Given
         Long userId = 3L;
-        String password = "password";
+        String password = "";
+        String massage = "User password should not be null or empty";
 
-        //TODO:
-//        when(userPasswordValidator.validate(password)).thenThrow(new ValidationException());
+        doThrow(new ValidationException(massage)).when(userPasswordValidator).validate(password);
 
-        
-
+        // When and Then
+        assertThatThrownBy(()-> userUpdateService.updateUserPassword(userId, password))
+                .isInstanceOf(ValidationException.class)
+                .hasMessage(massage);
     }
 
     @Test
@@ -233,25 +235,12 @@ class UserUpdateServiceTest {
     }
 
     @Test
-    void updateUserEmail_thorValidationExceptionIfValidatorFails() {
-        //Given
-        Long userId = 3L;
-        String email = "email@gmail.com";
-
-        //TODO:
-//        when(userEmailValidator.validate(email)).thenThrow(new ValidationException());
-    }
-
-
-    @Test
     void updateUserEmail_throwEntityNotFoundExceptionIfUserRepositoryHasNoUser() {
         //Given
         Long userId = 3L;
         String email = "email@gmail.com";
         String exceptionMessage = "This user doesn't exist by Id: " + userId;
 
-        //TODO:
-//        when(userEmailValidator.validate(email)).thenThrow(new ValidationException());
         when(userReadService.getUserEntityById(userId)).thenThrow(new EntityNotFoundException(exceptionMessage));
 
         //When and Then
@@ -274,8 +263,6 @@ class UserUpdateServiceTest {
         expectedUser.setId(userId);
         expectedUser.setEmail(email);
 
-        //TODO:
-//        when(userEmailValidator.validate(email)).
         when(userReadService.getUserEntityById(userId)).thenReturn(user);
         when(userConverter.userToUserDto(user)).thenReturn(expectedUser);
 

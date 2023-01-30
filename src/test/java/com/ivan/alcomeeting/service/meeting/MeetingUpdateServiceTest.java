@@ -15,12 +15,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class MeetingUpdateServiceTest {
@@ -42,7 +42,7 @@ class MeetingUpdateServiceTest {
 
     @Test
     void updateMeeting_returnMeetingDtoWithUpdatedMeetingName() {
-        //Given
+        // Given
         Long meetingId = 3L;
         String meetingName = "Tuc-tuc";
 
@@ -61,10 +61,70 @@ class MeetingUpdateServiceTest {
         when(meetingReadService.getMeetingEntityById(meetingId)).thenReturn(existedMeeting);
         when(meetingConverter.meetingToMeetingDto(existedMeeting)).thenReturn(expectedMeetingDto);
 
-        //When
+        // When
         MeetingDto actualMeetingDto = meetingUpdateService.updateMeeting(meetingUpdateDto);
 
-        //Then
+        // Then
+        verify(meetingRepository, times(1)).save(existedMeeting);
+        assertThat(actualMeetingDto).isEqualTo(expectedMeetingDto);
+    }
+
+    @Test
+    void updateMeeting_returnMeetingDtoWithoutUpdatedNameIfMeetingUpdateDtoNameIsNull() {
+        // Given
+        Long meetingId = 3L;
+        String nameToUpdate = null;
+        String existedName = "Poc";
+
+        MeetingUpdateDto meetingUpdateDto = new MeetingUpdateDto();
+        meetingUpdateDto.setId(meetingId);
+        meetingUpdateDto.setName(nameToUpdate);
+
+        Meeting existedMeeting = new Meeting();
+        existedMeeting.setId(meetingId);
+        existedMeeting.setName(existedName);
+
+        MeetingDto expectedMeetingDto = new MeetingDto();
+        expectedMeetingDto.setId(meetingId);
+        expectedMeetingDto.setName(existedName);
+
+        when(meetingReadService.getMeetingEntityById(meetingId)).thenReturn(existedMeeting);
+        when(meetingConverter.meetingToMeetingDto(existedMeeting)).thenReturn(expectedMeetingDto);
+
+        // When
+        MeetingDto actualMeetingDto = meetingUpdateService.updateMeeting(meetingUpdateDto);
+
+        // Then
+        verify(meetingRepository, times(1)).save(existedMeeting);
+        assertThat(actualMeetingDto).isEqualTo(expectedMeetingDto);
+    }
+
+    @Test
+    void updateMeeting_returnMeetingDtoWithoutUpdatedNameIfMeetingUpdateDtoNameIsEmpty() {
+        // Given
+        Long meetingId = 3L;
+        String nameToUpdate = "";
+        String existedName = "Poc";
+
+        MeetingUpdateDto meetingUpdateDto = new MeetingUpdateDto();
+        meetingUpdateDto.setId(meetingId);
+        meetingUpdateDto.setName(nameToUpdate);
+
+        Meeting existedMeeting = new Meeting();
+        existedMeeting.setId(meetingId);
+        existedMeeting.setName(existedName);
+
+        MeetingDto expectedMeetingDto = new MeetingDto();
+        expectedMeetingDto.setId(meetingId);
+        expectedMeetingDto.setName(existedName);
+
+        when(meetingReadService.getMeetingEntityById(meetingId)).thenReturn(existedMeeting);
+        when(meetingConverter.meetingToMeetingDto(existedMeeting)).thenReturn(expectedMeetingDto);
+
+        // When
+        MeetingDto actualMeetingDto = meetingUpdateService.updateMeeting(meetingUpdateDto);
+
+        // Then
         verify(meetingRepository, times(1)).save(existedMeeting);
         assertThat(actualMeetingDto).isEqualTo(expectedMeetingDto);
     }
@@ -74,7 +134,7 @@ class MeetingUpdateServiceTest {
         //Given
         Long meetingId = 3L;
         String dateToUpdate = "2020-11-10T18:30";
-        String date = "2020-11-10 18:30";
+        LocalDateTime existedDate = LocalDateTime.now();
 
         MeetingUpdateDto meetingUpdateDto = new MeetingUpdateDto();
         meetingUpdateDto.setId(meetingId);
@@ -82,26 +142,86 @@ class MeetingUpdateServiceTest {
 
         Meeting existedMeeting = new Meeting();
         existedMeeting.setId(meetingId);
-        existedMeeting.setDate(LocalDateTime.now());
+        existedMeeting.setDate(existedDate);
 
         MeetingDto expectedMeetingDto = new MeetingDto();
         expectedMeetingDto.setId(meetingId);
-        expectedMeetingDto.setDate(date);
+        expectedMeetingDto.setDate("2020-11-10 18:30");
 
         when(meetingReadService.getMeetingEntityById(meetingId)).thenReturn(existedMeeting);
         when(meetingConverter.meetingToMeetingDto(existedMeeting)).thenReturn(expectedMeetingDto);
 
-        //When
+        // When
         MeetingDto actualMeetingDto = meetingUpdateService.updateMeeting(meetingUpdateDto);
 
-        //Then
+        // Then
+        verify(meetingRepository, times(1)).save(existedMeeting);
+        assertThat(actualMeetingDto).isEqualTo(expectedMeetingDto);
+    }
+
+    @Test
+    void updateMeeting_returnMeetingDtoWithoutUpdatedDateIfMeetingUpdateDtoDateIsNull() {
+        //Given
+        Long meetingId = 3L;
+        String dateToUpdate = null;
+        LocalDateTime date = LocalDateTime.now();
+
+        MeetingUpdateDto meetingUpdateDto = new MeetingUpdateDto();
+        meetingUpdateDto.setId(meetingId);
+        meetingUpdateDto.setDate(dateToUpdate);
+
+        Meeting existedMeeting = new Meeting();
+        existedMeeting.setId(meetingId);
+        existedMeeting.setDate(date);
+
+        MeetingDto expectedMeetingDto = new MeetingDto();
+        expectedMeetingDto.setId(meetingId);
+        expectedMeetingDto.setDate(date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+
+        when(meetingReadService.getMeetingEntityById(meetingId)).thenReturn(existedMeeting);
+        when(meetingConverter.meetingToMeetingDto(existedMeeting)).thenReturn(expectedMeetingDto);
+
+        // When
+        MeetingDto actualMeetingDto = meetingUpdateService.updateMeeting(meetingUpdateDto);
+
+        // Then
+        verify(meetingRepository, times(1)).save(existedMeeting);
+        assertThat(actualMeetingDto).isEqualTo(expectedMeetingDto);
+    }
+
+    @Test
+    void updateMeeting_returnMeetingDtoWithoutUpdatedDateIfMeetingUpdateDtoDateIsEmpty() {
+        //Given
+        Long meetingId = 3L;
+        String dateToUpdate = "";
+        LocalDateTime date = LocalDateTime.now();
+
+        MeetingUpdateDto meetingUpdateDto = new MeetingUpdateDto();
+        meetingUpdateDto.setId(meetingId);
+        meetingUpdateDto.setDate(dateToUpdate);
+
+        Meeting existedMeeting = new Meeting();
+        existedMeeting.setId(meetingId);
+        existedMeeting.setDate(date);
+
+        MeetingDto expectedMeetingDto = new MeetingDto();
+        expectedMeetingDto.setId(meetingId);
+        expectedMeetingDto.setDate(date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+
+        when(meetingReadService.getMeetingEntityById(meetingId)).thenReturn(existedMeeting);
+        when(meetingConverter.meetingToMeetingDto(existedMeeting)).thenReturn(expectedMeetingDto);
+
+        // When
+        MeetingDto actualMeetingDto = meetingUpdateService.updateMeeting(meetingUpdateDto);
+
+        // Then
         verify(meetingRepository, times(1)).save(existedMeeting);
         assertThat(actualMeetingDto).isEqualTo(expectedMeetingDto);
     }
 
     @Test
     void updateMeeting_returnMeetingDtoWithUpdatedMeetingAddress() {
-        //Given
+        // Given
         Long meetingId = 3L;
         String address = "Mars";
 
@@ -120,17 +240,77 @@ class MeetingUpdateServiceTest {
         when(meetingReadService.getMeetingEntityById(meetingId)).thenReturn(existedMeeting);
         when(meetingConverter.meetingToMeetingDto(existedMeeting)).thenReturn(expectedMeetingDto);
 
-        //When
+        // When
         MeetingDto actualMeetingDto = meetingUpdateService.updateMeeting(meetingUpdateDto);
 
-        //Then
+        // Then
         verify(meetingRepository, times(1)).save(existedMeeting);
         assertThat(actualMeetingDto).isEqualTo(expectedMeetingDto);
     }
 
     @Test
+    void updateMeeting_returnMeetingDtoWithoutUpdatedAddressIfMeetingUpdateDtoAddressIsNull() {
+        // Given
+        Long meetingId = 3L;
+        String addressToUpdate = null;
+        String existedAddress = "Cuba";
+
+        MeetingUpdateDto meetingUpdateDto = new MeetingUpdateDto();
+        meetingUpdateDto.setId(meetingId);
+        meetingUpdateDto.setAddress(addressToUpdate);
+
+        Meeting existedMeeting = new Meeting();
+        existedMeeting.setId(meetingId);
+        existedMeeting.setAddress(existedAddress);
+
+        MeetingDto expectedMeetingDto = new MeetingDto();
+        expectedMeetingDto.setId(meetingId);
+        expectedMeetingDto.setAddress(existedAddress);
+
+        when(meetingReadService.getMeetingEntityById(meetingId)).thenReturn(existedMeeting);
+        when(meetingConverter.meetingToMeetingDto(existedMeeting)).thenReturn(expectedMeetingDto);
+
+        // When
+        MeetingDto actualMeetingDto = meetingUpdateService.updateMeeting(meetingUpdateDto);
+
+        // Then
+        verify(meetingRepository, times(1)).save(existedMeeting);
+        assertThat(actualMeetingDto).isEqualTo(expectedMeetingDto);
+    }
+
+    @Test
+    void updateMeeting_returnMeetingDtoWithoutUpdatedAddressIfMeetingUpdateDtoAddressIsEmpty() {
+        // Given
+        Long meetingId = 3L;
+        String addressToUpdate = "";
+        String existedAddress = "Cuba";
+
+        MeetingUpdateDto meetingUpdateDto = new MeetingUpdateDto();
+        meetingUpdateDto.setId(meetingId);
+        meetingUpdateDto.setAddress(addressToUpdate);
+
+        Meeting existedMeeting = new Meeting();
+        existedMeeting.setId(meetingId);
+        existedMeeting.setAddress(existedAddress);
+
+        MeetingDto expectedMeetingDto = new MeetingDto();
+        expectedMeetingDto.setId(meetingId);
+        expectedMeetingDto.setAddress(existedAddress);
+
+        when(meetingReadService.getMeetingEntityById(meetingId)).thenReturn(existedMeeting);
+        when(meetingConverter.meetingToMeetingDto(existedMeeting)).thenReturn(expectedMeetingDto);
+
+        // When
+        MeetingDto actualMeetingDto = meetingUpdateService.updateMeeting(meetingUpdateDto);
+
+        // Then
+        verify(meetingRepository, times(1)).save(existedMeeting);
+        assertThat(actualMeetingDto).isEqualTo(expectedMeetingDto);
+    }
+    
+    @Test
     void updateMeeting_returnUpdatedMeetingDto() {
-        //Given
+        // Given
         Long meetingId = 3L;
         String meetingName = "Tuc-tuc";
         String dateToUpdate = "2020-11-10T18:30";
@@ -158,17 +338,17 @@ class MeetingUpdateServiceTest {
         when(meetingReadService.getMeetingEntityById(meetingId)).thenReturn(existedMeeting);
         when(meetingConverter.meetingToMeetingDto(existedMeeting)).thenReturn(expectedMeetingDto);
 
-        //When
+        // When
         MeetingDto actualMeetingDto = meetingUpdateService.updateMeeting(meetingUpdateDto);
 
-        //Then
+        // Then
         verify(meetingRepository, times(1)).save(existedMeeting);
         assertThat(actualMeetingDto).isEqualTo(expectedMeetingDto);
     }
 
     @Test
     void addUser_returnMeetingDtoWithAddedUser() {
-        //Given
+        // Given
         Long meetingId = 3L;
         Long userId = 1L;
 
@@ -190,17 +370,17 @@ class MeetingUpdateServiceTest {
         when(userReadService.getUserEntityById(userId)).thenReturn(user);
         when(meetingConverter.meetingToMeetingDto(meeting)).thenReturn(expected);
 
-        //When
+        // When
         MeetingDto actual = meetingUpdateService.addUser(meetingId, userId);
 
-        //Then
+        // Then
         verify(meetingRepository, times(1)).save(meeting);
         assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     void deleteUser_returnMeetingDtoWithoutUser() {
-        //Given
+        // Given
         Long meetingId = 3L;
         Long userId = 1L;
 
@@ -222,10 +402,10 @@ class MeetingUpdateServiceTest {
         when(userReadService.getUserEntityById(userId)).thenReturn(user);
         when(meetingConverter.meetingToMeetingDto(meeting)).thenReturn(expected);
 
-        //When
+        // When
         MeetingDto actual = meetingUpdateService.addUser(meetingId, userId);
 
-        //Then
+        // Then
         verify(meetingRepository, times(1)).save(meeting);
         assertThat(actual).isEqualTo(expected);
     }

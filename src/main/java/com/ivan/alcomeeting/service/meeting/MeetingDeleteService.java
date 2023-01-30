@@ -1,6 +1,5 @@
 package com.ivan.alcomeeting.service.meeting;
 
-import com.ivan.alcomeeting.exception.ValidationException;
 import com.ivan.alcomeeting.repository.MeetingRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +13,7 @@ public class MeetingDeleteService {
     }
 
     @Transactional
-    public void deleteMeeting(Long meetingId) throws ValidationException {
+    public void deleteMeeting(Long meetingId) {
         meetingRepository.deleteMeetingFromMeetingsUsers(meetingId);
 
         meetingRepository.deleteMeetingFromMeetingsBeverages(meetingId);

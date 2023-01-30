@@ -46,7 +46,7 @@ class MeetingReadServiceTest {
 
     @Test
     void getMeetingById_returnMeetingDto() {
-        //Given
+        // Given
         Long meetingId = 3L;
         Meeting meeting = new Meeting(meetingId,
                 "Any",
@@ -67,16 +67,30 @@ class MeetingReadServiceTest {
         when(meetingRepository.findById(meetingId)).thenReturn(Optional.of(meeting));
         when(meetingConverter.meetingToMeetingDto(meeting)).thenReturn(expectedMeetingDto);
 
-        //When
+        // When
         MeetingDto actualMeetingDto = meetingReadService.getMeetingById(meetingId);
 
-        //Then
+        // Then
         assertThat(actualMeetingDto).isEqualTo(expectedMeetingDto);
     }
 
     @Test
+    void getMeetingById_throwEntityNotFoundExceptionIfMeetingRepositoryDoesNotHaveMeeting() {
+        // Given
+        Long meetingId = 3L;
+        String message = "Meeting whit id: " + meetingId + " - doesn't exist";
+
+        when(meetingRepository.findById(meetingId)).thenThrow(new EntityNotFoundException(message));
+
+        // When and Then
+        assertThatThrownBy(()-> meetingReadService.getMeetingById(meetingId))
+                .isInstanceOf(EntityNotFoundException.class)
+                .hasMessage(message);
+    }
+
+    @Test
     void getAllMeetings_returnListMeetingsDto() {
-        //Given
+        // Given
         Meeting meeting1 = new Meeting();
         Meeting meeting2 = new Meeting();
         MeetingDto meetingDto1= new MeetingDto();
@@ -87,16 +101,16 @@ class MeetingReadServiceTest {
         when(meetingConverter.meetingToMeetingDto(meeting2)).thenReturn(meetingDto2);
         when(meetingRepository.findAll()).thenReturn(List.of(meeting1, meeting2));
 
-        //When
+        // When
         List<MeetingDto> actualList = meetingReadService.getAllMeetings();
 
-        //Then
+        // Then
         assertThat(actualList).isEqualTo(expectedList);
     }
 
     @Test
     void getAllMeetingsByBeverage_returnListMeetingDtoWithBeverage() {
-        //Given
+        // Given
         Long beverageId = 1L;
         Beverage beverage = new Beverage();
         beverage.setId(beverageId);
@@ -151,16 +165,16 @@ class MeetingReadServiceTest {
         when(meetingConverter.meetingToMeetingDto(meeting2)).thenReturn(meetingDto2);
         when(meetingRepository.findAllByBeverage(beverageId)).thenReturn(List.of(meeting1,meeting2));
 
-        //When
+        // When
         List<MeetingDto> actualListMeetingDto = meetingReadService.getAllMeetingsByBeverage(beverageId);
 
-        //Then
+        // Then
         assertThat(actualListMeetingDto).isEqualTo(expectedList);
     }
 
     @Test
     void getAllMeetingsByDate_returnListMeetingDtoByDate() {
-        //Given
+        // Given
         LocalDateTime dateTime = LocalDateTime.now();
         LocalDate date = dateTime.toLocalDate();
 
@@ -183,16 +197,16 @@ class MeetingReadServiceTest {
         when(meetingConverter.meetingToMeetingDto(meeting1)).thenReturn(meetingDto1);
         when(meetingConverter.meetingToMeetingDto(meeting2)).thenReturn(meetingDto2);
 
-        //When
+        // When
         List<MeetingDto> actualListMeetingDto = meetingReadService.getAllMeetingsByDate(date);
 
-        //Then
+        // Then
         assertThat(actualListMeetingDto).isEqualTo(expectedListMeetingDto);
     }
 
     @Test
     void getALlMeetingsByAddress_returnListMeetingDtoByAddress() {
-        //Given
+        // Given
         String address = "Mars";
 
         Meeting meeting1 = new Meeting();
@@ -211,22 +225,22 @@ class MeetingReadServiceTest {
         when(meetingConverter.meetingToMeetingDto(meeting1)).thenReturn(meetingDto1);
         when(meetingConverter.meetingToMeetingDto(meeting2)).thenReturn(meetingDto2);
 
-        //When
+        // When
         List<MeetingDto> actualListMeetingDto = meetingReadService.getALlMeetingsByAddress(address);
 
-        //Then
+        // Then
         assertThat(actualListMeetingDto).isEqualTo(expectedListMeetingDto);
     }
 
     @Test
     void getMeetingEntityById_throwEntityNotFoundExceptionIfMeetingRepositoryHasNoMeeting() {
-        //Given
+        // Given
         Long meetingId = 3L;
         String exceptionMessage = "Meeting whit id: " + meetingId + " - doesn't exist";
 
         when(meetingRepository.findById(meetingId)).thenThrow(new EntityNotFoundException(exceptionMessage));
 
-        //When and Then
+        // When and Then
         assertThatThrownBy(()-> meetingReadService.getMeetingEntityById(meetingId))
                 .isInstanceOf(EntityNotFoundException.class)
                 .hasMessage(exceptionMessage);
@@ -234,7 +248,7 @@ class MeetingReadServiceTest {
 
     @Test
     void getMeetingEntityById_returnMeetingEntity() {
-        //Given
+        // Given
         Long meetingId = 3L;
 
         Meeting expectedMeeting = new Meeting();
@@ -242,10 +256,10 @@ class MeetingReadServiceTest {
 
         when(meetingRepository.findById(meetingId)).thenReturn(Optional.of(expectedMeeting));
 
-        //When
+        // When
         Meeting actualMeeting = meetingReadService.getMeetingEntityById(meetingId);
 
-        //Then
+        // Then
         assertThat(actualMeeting).isEqualTo(expectedMeeting);
     }
 }

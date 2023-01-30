@@ -45,7 +45,6 @@ public class MeetingViewUpdateService {
         return meetingViewConverter.meetingToMeetingViewDto(existMeeting, isOwner(principal, existMeeting));
     }
 
-    //TODO: add validation to existing meeting
     public MeetingViewDto addParticipateToMeeting(Long meetingId, Principal principal){
         Meeting existMeeting = getMeetingEntityById(meetingId);
 
@@ -58,7 +57,6 @@ public class MeetingViewUpdateService {
         return meetingViewConverter.meetingToMeetingViewDto(existMeeting, isOwner(principal, existMeeting));
     }
 
-    //TODO: add validation to existing meeting
     public MeetingViewDto deleteParticipateFromMeeting(Long meetingId, Principal principal){
         Meeting existMeeting = getMeetingEntityById(meetingId);
 
