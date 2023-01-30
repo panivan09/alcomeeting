@@ -307,7 +307,7 @@ class MeetingUpdateServiceTest {
         verify(meetingRepository, times(1)).save(existedMeeting);
         assertThat(actualMeetingDto).isEqualTo(expectedMeetingDto);
     }
-    
+
     @Test
     void updateMeeting_returnUpdatedMeetingDto() {
         // Given

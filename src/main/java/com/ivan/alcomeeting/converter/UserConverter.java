@@ -57,7 +57,6 @@ public class UserConverter {
         user.setRoles(roles);
 
         return user;
-
     }
 
     public User userDtoToUser(UserDto userDto){
@@ -73,7 +72,6 @@ public class UserConverter {
                 .collect(Collectors.toSet()));
 
         return user;
-
     }
 
     public UserViewDto userToUserViewDto(User user){

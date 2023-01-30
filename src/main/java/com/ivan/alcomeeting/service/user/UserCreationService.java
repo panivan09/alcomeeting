@@ -55,6 +55,7 @@ public class UserCreationService {
                 .map(beverageRepository::getReferenceById)
                 .collect(Collectors.toList());
 
+        //TODO: why beverage.size() here? Was it example?
         Set<Role> roles = new HashSet<>();
         if(beverages.size() > 2){
             roles.add(new Role());
