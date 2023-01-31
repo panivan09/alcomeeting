@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class MeetingConverter {
-
     public final UserConverter userConverter;
     public final BeverageConverter beverageConverter;
 
@@ -27,7 +26,6 @@ public class MeetingConverter {
     }
 
     public MeetingDto meetingToMeetingDto(Meeting meeting){
-
         MeetingDto meetingDto = new MeetingDto();
 
         meetingDto.setId(meeting.getId());
@@ -53,7 +51,6 @@ public class MeetingConverter {
                     .map(beverageConverter::beverageToBeverageDto)
                     .collect(Collectors.toList()));
         }
-
         return meetingDto;
     }
 
@@ -71,11 +68,8 @@ public class MeetingConverter {
         meeting.setAddress(meetingCreationDto.getAddress());
         meeting.setMeetingOwner(owner);
         meeting.setParticipates(participates);
-        meeting.setMeetingOwner(owner);
         meeting.setBeverages(new HashSet<>(beverages));
 
         return meeting;
     }
-
-
 }
