@@ -15,17 +15,18 @@ import java.util.stream.Collectors;
 public class UserSecurityConverter {
 
     public UserDetails userToUserDetails(User userEntity){
-        return org.springframework.security.core.userdetails.User.builder()
+        UserDetails build = org.springframework.security.core.userdetails.User.builder()
                 .authorities(userEntity.getRoles().stream()
-                                                    .map(this::getAuthorities)
-                                                    .flatMap(Collection::stream)
-                                                    .collect(Collectors.toSet()))
+                        .map(this::getAuthorities)
+                        .flatMap(Collection::stream)
+                        .collect(Collectors.toSet()))
                 .password(userEntity.getPassword())
                 .username(userEntity.getUserName())
                 .accountExpired(false)
                 .accountLocked(false)
                 .credentialsExpired(false)
                 .build();
+        return build;
     }
 
     private Set<SimpleGrantedAuthority> getAuthorities(Role role){

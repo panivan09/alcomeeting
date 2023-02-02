@@ -34,28 +34,35 @@ class UserConverterTest {
     @Test
     void userToUserDto_returnUserDtoAfterConversion() {
         // Given
+        Long userId = 1L;
+        String name = "Poc";
+        String lastName = "Local";
+        String email = "poc@gmail.com";
+        String userName = "localpoc";
+        String password = "Password123";
+
         Beverage beverage1 = new Beverage(1L,"Gin","London");
         Beverage beverage2 = new Beverage(2L,"Whiskey","Irish");
 
         BeverageDto beverageDto1 = new BeverageDto(1L,"Gin","London");
         BeverageDto beverageDto2 = new BeverageDto(2L,"Whiskey","Irish");
 
-        User user = new User(1L,
-                "Poc",
-                "Local",
-                "poc@gmail.com",
-                "localpoc",
-                "Password123",
+        User user = new User(userId,
+                name,
+                lastName,
+                email,
+                userName,
+                password,
                 null,
                 Set.of(beverage1, beverage2),
                 null);
 
-        UserDto expected = new UserDto(1L,
-                "Poc",
-                "Local",
-                "poc@gmail.com",
-                "localpoc",
-                "Password123",
+        UserDto expected = new UserDto(userId,
+                name,
+                lastName,
+                email,
+                userName,
+                password,
                 List.of(beverageDto1, beverageDto2));
 
         when(beverageConverter.beverageToBeverageDto(beverage1)).thenReturn(beverageDto1);
@@ -73,6 +80,12 @@ class UserConverterTest {
         // Given
         Long beverage1Id = 1L;
         Long beverage2Id = 2L;
+        String name = "Poc";
+        String lastName = "Local";
+        String email = "poc@gmail.com";
+        String userName = "localpoc";
+        String password = "Password123";
+
         Beverage beverage1 = new Beverage(beverage1Id,"Gin","London");
         Beverage beverage2 = new Beverage(beverage2Id,"Whiskey","Irish");
         List<Beverage> beverages = List.of(beverage1, beverage2);
@@ -81,19 +94,19 @@ class UserConverterTest {
         Set<Role> rolesEntity = Set.of(userRole);
 
         UserCreationDto userCreationDto = new UserCreationDto();
-        userCreationDto.setName("Poc");
-        userCreationDto.setLastName("Local");
-        userCreationDto.setEmail("poc@gmail.com");
-        userCreationDto.setUserName("localpoc");
-        userCreationDto.setPassword("Password123");
+        userCreationDto.setName(name);
+        userCreationDto.setLastName(lastName);
+        userCreationDto.setEmail(email);
+        userCreationDto.setUserName(userName);
+        userCreationDto.setPassword(password);
         userCreationDto.setBeverages(Set.of(beverage1Id, beverage2Id));
 
         User expected = new User();
-        expected.setName("Poc");
-        expected.setLastName("Local");
-        expected.setEmail("poc@gmail.com");
-        expected.setUserName("localpoc");
-        expected.setPassword("Password123");
+        expected.setName(name);
+        expected.setLastName(lastName);
+        expected.setEmail(email);
+        expected.setUserName(userName);
+        expected.setPassword(password);
         expected.setBeverages(Set.of(beverage1, beverage2));
         expected.setRoles(rolesEntity);
 
@@ -108,6 +121,12 @@ class UserConverterTest {
     @Test
     void userDtoToUser_returnUserAfterConversion() {
         // Given
+        String name = "Poc";
+        String lastName = "Local";
+        String email = "poc@gmail.com";
+        String userName = "localpoc";
+        String password = "Password123";
+
         Beverage beverage1 = new Beverage(1L,"Gin","London");
         Beverage beverage2 = new Beverage(2L,"Whiskey","Irish");
 
@@ -115,19 +134,19 @@ class UserConverterTest {
         BeverageDto beverageDto2 = new BeverageDto(2L,"Whiskey","Irish");
 
         UserDto userDto = new UserDto(null,
-                "Poc",
-                "Local",
-                "poc@gmail.com",
-                "localpoc",
-                "Password123",
+                name,
+                lastName,
+                email,
+                userName,
+                password,
                 List.of(beverageDto1, beverageDto2));
 
         User expected = new User(null,
-                "Poc",
-                "Local",
-                "poc@gmail.com",
-                "localpoc",
-                "Password123",
+                name,
+                lastName,
+                email,
+                userName,
+                password,
                 null,
                 Set.of(beverage1, beverage2),
                 null);
@@ -146,24 +165,31 @@ class UserConverterTest {
     @Test
     void userToUserViewDto_returnUserViewDtoAfterConversion() {
         // Given
+        Long userId = 3L;
+        String name = "Poc";
+        String lastName = "Local";
+        String email = "poc@gmail.com";
+        String userName = "localpoc";
+        String password = "Password123";
+
+        String beveragesName = "Gin, Whiskey";
         Beverage beverage1 = new Beverage(1L,"Gin","London");
         Beverage beverage2 = new Beverage(2L,"Whiskey","Irish");
-        String beveragesName = "Gin, Whiskey";
 
-        User user = new User(3L,
-                "Poc",
-                "Local",
-                "poc@gmail.com",
-                "localpoc",
-                "Password123",
+        User user = new User(userId,
+                name,
+                lastName,
+                email,
+                userName,
+                password,
                 null,
                 Set.of(beverage1, beverage2),
                 null);
 
-        UserViewDto expected = new UserViewDto(3L,
-                "Poc",
-                "Local",
-                "poc@gmail.com",
+        UserViewDto expected = new UserViewDto(userId,
+                name,
+                lastName,
+                email,
                 beveragesName);
 
         // When
