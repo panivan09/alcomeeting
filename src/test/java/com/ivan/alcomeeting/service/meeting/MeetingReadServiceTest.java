@@ -127,37 +127,6 @@ class MeetingReadServiceTest {
         MeetingDto meetingDto2 = new MeetingDto();
         meetingDto2.setBeveragesDto(List.of(beverageDto));
 
-//   Or:
-//        Meeting meeting1 = new Meeting(1L,
-//                "Any",
-//                null,
-//                "Any",
-//                null,
-//                null,
-//                Set.of(beverage));
-//        Meeting meeting2 = new Meeting(2L,
-//                "Any",
-//                null,
-//                "Any",
-//                null,
-//                null,
-//                Set.of(beverage));
-//
-//        MeetingDto meetingDto1 = new MeetingDto(1L,
-//                "Any",
-//                null,
-//                "Any",
-//                null,
-//                null,
-//                List.of(beverageDto));
-//        MeetingDto meetingDto2 = new MeetingDto(2L,
-//                "Any",
-//                null,
-//                "Any",
-//                null,
-//                null,
-//                List.of(beverageDto));
-
         List<MeetingDto> expectedList = List.of(meetingDto1, meetingDto2);
 
         when(beverageService.getBeverageEntityById(beverageId)).thenReturn(beverage);

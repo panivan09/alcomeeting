@@ -20,8 +20,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -147,7 +145,5 @@ class UserCreationServiceTest {
         // Then
         assertThat(actualUserDto).isEqualTo(userExpectedDto);
         verify(userRepository, times(1)).save(userToCreateEntity);// check that method was call
-
     }
-
 }

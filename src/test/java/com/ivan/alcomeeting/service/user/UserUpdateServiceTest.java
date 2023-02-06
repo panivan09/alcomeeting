@@ -5,13 +5,11 @@ import com.ivan.alcomeeting.dto.BeverageDto;
 import com.ivan.alcomeeting.dto.UserDto;
 import com.ivan.alcomeeting.dto.UserFullNameDto;
 import com.ivan.alcomeeting.entity.Beverage;
-import com.ivan.alcomeeting.entity.Meeting;
 import com.ivan.alcomeeting.entity.User;
 import com.ivan.alcomeeting.exception.EntityNotFoundException;
 import com.ivan.alcomeeting.exception.ValidationException;
 import com.ivan.alcomeeting.repository.UserRepository;
 import com.ivan.alcomeeting.service.BeverageService;
-import com.ivan.alcomeeting.validation.UserEmailValidator;
 import com.ivan.alcomeeting.validation.UserPasswordValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,12 +19,10 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class UserUpdateServiceTest {
@@ -42,8 +38,6 @@ class UserUpdateServiceTest {
     private UserReadService userReadService;
     @Mock
     private UserPasswordValidator userPasswordValidator;
-    @Mock
-    private UserEmailValidator userEmailValidator;
 
     @InjectMocks
     private UserUpdateService userUpdateService;

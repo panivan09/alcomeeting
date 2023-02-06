@@ -10,101 +10,15 @@
           rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
           crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/common.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.css">
+        <link rel="stylesheet" href="/css/common.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.css">
 
 </head>
-
-<!--<body>-->
-
-<!--<h1>Hello drunker!!!</h1>-->
-
-<!--<h2>Available appointments:</h2>-->
-
-<!--<div class="container">-->
-<!--    <table class="table table-bordered table-striped">-->
-
-<!--        <thead>-->
-<!--        <tr>-->
-<!--            <th>Name</th>-->
-<!--            <th>Date</th>-->
-<!--            <th>Place</th>-->
-<!--            <th>Meeting creator</th>-->
-<!--            <th>Beverages</th>-->
-<!--            <th>Participates</th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-
-
-<!--        <tbody>-->
-<!--        <tr th:each="meeting : ${allMeetings}">-->
-<!--            <td th:text="${meeting.name}"></td>-->
-<!--            <td th:text="${meeting.date}"></td>-->
-<!--            <td th:text="${meeting.address}"></td>-->
-<!--            <td th:text="${meeting.meetingOwner}"></td>-->
-<!--            <td th:text="${meeting.listBeverages}"></td>-->
-<!--            <td th:text="${meeting.listParticipates}"></td>-->
-
-<!--            <td>-->
-<!--                <div th:if="${meeting.isOwner}">-->
-<!--                    <a th:href="@{/thyme/meeting/update(meetingId=${meeting.id})}" class="btn btn-primary ml-2">Update</a>-->
-<!--                    <a th:href="@{/thyme/meeting/delete(meetingId=${meeting.id})}" class="btn btn-danger ml-2">Delete</a>-->
-<!--                </div>-->
-<!--            </td>-->
-
-<!--        </tr>-->
-<!--        </tbody>-->
-
-
-<!--    </table>-->
-<!--</div>-->
-
-
-
-<!--<form th:action="@{/thyme/creatingmeeting}" method="get">-->
-<!--    <div align="center">-->
-<!--        <button type="submit" name="action" class="btn btn-primary" a>Create meeting</button>-->
-<!--    </div>-->
-<!--</form>-->
-<!--<p></p>-->
-<!--<form th:action="@{/thyme/registration}" method="get">-->
-<!--    <button type="submit" name="action" class="btn btn-primary">Registration</button>-->
-<!--</form>-->
-<!--<p></p>-->
-
-
-<!--<p></p>-->
-<!--<h2> Search meeting by:</h2>-->
-<!--<p></p>-->
-
-<!--<form th:action="@{/thyme/search/beverage}" method="get">-->
-<!--    <label>Beverage Name</label>-->
-<!--    <input type="text" th:name="beverageName" th:placeholder="name" />-->
-<!--        <button type="submit">Search</button>-->
-<!--</form>-->
-<!--<p></p>-->
-<!--<form th:action="@{/thyme/search/date}" method="get">-->
-<!--    <label>Date</label>-->
-<!--    <input type="date" th:name="date" th:placeholder="date" />-->
-<!--    <button type="submit">Search</button>-->
-<!--</form>-->
-<!--<p></p>-->
-<!--<form th:action="@{/thyme/search/address}" method="get">-->
-<!--    <label>Address</label>-->
-<!--    <input type="text" th:name="address" th:placeholder="address" />-->
-<!--    <button type="submit">Search</button>-->
-<!--</form>-->
-
-<!--</body>-->
-
-<!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
-
-
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-<!--        <a class="navbar-brand" th:text="${loggedUser.name} + ' ' + ${loggedUser.lastName}"></a>-->
+        <!--        <a class="navbar-brand" th:text="${loggedUser.name} + ' ' + ${loggedUser.lastName}"></a>-->
         <a class="navbar-brand" th:text="${loggedUserFullName}"></a>
         <button class="navbar-toggler"
                 type="button"
@@ -122,7 +36,6 @@
         </div>
     </div>
 </nav>
-
 
 
 <br>
@@ -160,8 +73,10 @@
             <td th:text="${meeting.listParticipates}"></td>
             <td>
                 <div th:if="${meeting.isOwner}">
-                    <a th:href="@{/thyme/meeting/update(meetingId=${meeting.id})}" class="btn btn-primary btn-sm">Edit</a>
-                    <a th:href="@{/thyme/meeting/delete(meetingId=${meeting.id})}" class="btn btn-danger btn-sm">Delete</a>
+                    <a th:href="@{/thyme/meeting/update(meetingId=${meeting.id})}"
+                       class="btn btn-primary btn-sm">Edit</a>
+                    <a th:href="@{/thyme/meeting/delete(meetingId=${meeting.id})}"
+                       class="btn btn-danger btn-sm">Delete</a>
                 </div>
 
                 <div>
@@ -227,38 +142,5 @@
 </div>
 
 </body>
-
-
-
-<!--<div class="container mt-5">-->
-<!--&lt;!&ndash;    <select class="selectpicker" multiple aria-label="Default select example" data-live-search="true">&ndash;&gt;-->
-<!--    <select class="form-select" multiple aria-label="Default select example" data-live-search="true">-->
-<!--        <option value="/thyme/search/beverage">One</option>-->
-<!--        <option value="/thyme/search/date">Two</option>-->
-<!--        <option value="/thyme/search/address">Three</option>-->
-<!--    </select>-->
-<!--</div>-->
-
-
-<!--<div class="dropdown">-->
-<!--    <button onclick="myFunction()" class="dropbtn">Dropdown</button>-->
-<!--    <div id="myDropdown" class="dropdown-content">-->
-<!--        <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">-->
-<!--        <a th:href="@{search/beverage(param=myInput) } ">Beverage</a>-->
-<!--        <a href="@{/thyme/search/date}">Date</a>-->
-<!--        <a href="@{/thyme/search/address}">Address</a>-->
-<!--    </div>-->
-<!--</div>-->
-
-
-<!--<div class="search-tag-link">-->
-<!--    <input type="text" th:name="beverageName" th:placeholder="name" />-->
-<!--        <a th:href="@{search/beverage(value=beverageName) } ">Beverage</a>-->
-
-<!--    </div>-->
-<!--</div>-->
-
-
-
 
 </html>

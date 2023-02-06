@@ -37,7 +37,7 @@ public class UserCreationService {
                                BeverageRepository beverageRepository,
                                UserSecurityService userSecurityService
 //                               UserCreationValidator userCreationValidator - using for view
-) {
+    ) {
         this.userRepository = userRepository;
         this.userConverter = userConverter;
         this.roleRepository = roleRepository;
@@ -55,13 +55,8 @@ public class UserCreationService {
                 .map(beverageRepository::getReferenceById)
                 .collect(Collectors.toList());
 
-        //TODO: why beverage.size() here? Was it example?
         Set<Role> roles = new HashSet<>();
-        if(beverages.size() > 2){
-            roles.add(new Role());
-        } else {
-            roles.add(roleRepository.getReferenceById(USER_ROLE_ID));
-        }
+        roles.add(roleRepository.getReferenceById(USER_ROLE_ID));
 
         userCreationDto.setPassword(userSecurityService.encodePassword(userCreationDto.getPassword()));
 
@@ -78,11 +73,15 @@ public class UserCreationService {
     private void checkUserEmailIsFree(String email) {
         userRepository.findUserByEmail(email);
         Optional<User> userByEmail = userRepository.findUserByEmail(email);
-        userByEmail.ifPresent(a -> { throw new ValidationException("Email is occupied");});
+        userByEmail.ifPresent(a -> {
+            throw new ValidationException("Email is occupied");
+        });
     }
 
     private void checkUserNameIsFree(String userName) {
         Optional<User> userByUserName = userRepository.findUserByUserName(userName);
-        userByUserName.ifPresent(a -> { throw new ValidationException("User name is occupied");});
+        userByUserName.ifPresent(a -> {
+            throw new ValidationException("User name is occupied");
+        });
     }
 }

@@ -1,7 +1,6 @@
 package com.ivan.alcomeeting.converter;
 
 import com.ivan.alcomeeting.dto.BeverageDto;
-import com.ivan.alcomeeting.dto.MeetingDto;
 import com.ivan.alcomeeting.dto.UserCreationDto;
 import com.ivan.alcomeeting.dto.UserDto;
 import com.ivan.alcomeeting.dto.view.UserViewDto;
@@ -12,12 +11,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 class UserConverterTest {
@@ -114,7 +111,6 @@ class UserConverterTest {
         User actual = userConverter.userCreationDtoToUser(userCreationDto, beverages, rolesEntity);
 
         // Then
-        //TODO: is it right approach?
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 
@@ -158,7 +154,6 @@ class UserConverterTest {
         User actual = userConverter.userDtoToUser(userDto);
 
         // Then
-        //TODO: is it right approach?
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 
@@ -172,7 +167,6 @@ class UserConverterTest {
         String userName = "localpoc";
         String password = "Password123";
 
-        String beveragesName = "Gin, Whiskey";
         Beverage beverage1 = new Beverage(1L,"Gin","London");
         Beverage beverage2 = new Beverage(2L,"Whiskey","Irish");
 
@@ -186,17 +180,17 @@ class UserConverterTest {
                 Set.of(beverage1, beverage2),
                 null);
 
+        String expectedBeveragesName = "Gin, Whiskey";
         UserViewDto expected = new UserViewDto(userId,
                 name,
                 lastName,
                 email,
-                beveragesName);
+                expectedBeveragesName);
 
         // When
         UserViewDto actual = userConverter.userToUserViewDto(user);
 
         // Then
-        //TODO: Should I use "usingRecursiveComparison()" here?
         assertThat(actual).isEqualTo(expected);
     }
 }

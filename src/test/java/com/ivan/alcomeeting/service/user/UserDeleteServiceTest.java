@@ -1,6 +1,5 @@
 package com.ivan.alcomeeting.service.user;
 
-import com.ivan.alcomeeting.entity.User;
 import com.ivan.alcomeeting.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,7 +7,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -38,6 +36,4 @@ class UserDeleteServiceTest {
         verify(userRepository, times(1)).deleteUserFromUsersBeverages(userId);
         verify(userRepository, times(1)).deleteById(userId);
     }
-
-
 }

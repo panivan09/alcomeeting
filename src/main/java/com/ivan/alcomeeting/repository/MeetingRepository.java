@@ -24,7 +24,6 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
     void deleteMeetingFromMeetingsBeverages(Long meetingId);
 
     @Query("SELECT m from Meeting m join fetch m.beverages b where b.id = ?1")
-//    @Query(value = "SELECT * from meetings", nativeQuery = true) //TODO: try to write as SQL query with joins
     List<Meeting> findAllByBeverage(Long beverage);
 
     List<Meeting> findAllByDateBetween(LocalDateTime from, LocalDateTime to);

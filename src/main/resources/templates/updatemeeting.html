@@ -12,73 +12,6 @@
 
 </head>
 
-<!--<body>-->
-
-<!--<div class="container">-->
-<!--  <table class="table table-bordered table-striped">-->
-
-<!--    <thead>-->
-<!--    <tr>-->
-<!--      <th>Name</th>-->
-<!--      <th>Date</th>-->
-<!--      <th>Place</th>-->
-<!--      <th>Meeting creator</th>-->
-<!--      <th>Beverages</th>-->
-<!--      <th>Participates</th>-->
-<!--    </tr>-->
-<!--    </thead>-->
-
-<!--    <tbody>-->
-<!--    <tr th:each="meeting : ${meetingById}">-->
-<!--      <td th:text="${meeting.name}"></td>-->
-<!--      <td th:text="${meeting.date}"></td>-->
-<!--      <td th:text="${meeting.address}"></td>-->
-<!--      <td th:text="${meeting.meetingOwner}"></td>-->
-<!--      <td th:text="${meeting.listBeverages}"></td>-->
-<!--      <td th:text="${meeting.listParticipates}"></td>-->
-
-<!--    </tbody>-->
-
-<!--  </table>-->
-<!--</div>-->
-<!--</body>-->
-
-<!--<body>-->
-
-<!--<form action="#" th:action="@{/thyme/meeting/update}" th:object="${meetingUpdateDto}" method="post">-->
-
-<!--  <p></p>-->
-<!--  <div>-->
-<!--    <th th:each="meeting : ${meetingById}">-->
-<!--      <input type="hidden" th:value="${meeting.id}" th:name="id">-->
-<!--  </div>-->
-<!--  <p></p>-->
-
-
-<!--  <p></p>-->
-<!--  <label for="name">Meeting name</label>-->
-<!--  <input type="text" th:field="*{name}" id="name" placeholder="name">-->
-<!--  <p></p>-->
-<!--  <label for="date">Date</label>-->
-<!--  <input type="datetime-local"  th:field="*{date}" id="date" placeholder="date">-->
-<!--  <p></p>-->
-<!--  <label for="address">Address</label>-->
-<!--  <input type="text"  th:field="*{address}" id="address" placeholder="address">-->
-<!--  <p></p>-->
-
-<!--  <input type="submit" value="Update" class="btn btn-primary ml-2">-->
-
-<!--</form>-->
-
-<!--</body>-->
-
-
-<!--<a th:href="@{/thyme/main}" class="btn btn-primary ml-2">Back to main</a>-->
-
-
-<!-- -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
-
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" th:text="${loggedUserFullName}"></a>
@@ -133,21 +66,21 @@
 
 <br>
 <div align="center">
-    <a th:href="@{/thyme/main}" class="btn btn-primary ml-2" >Back to main page</a>
+    <a th:href="@{/thyme/main}" class="btn btn-primary ml-2">Back to main page</a>
 </div>
 <br>
 
 <div class="container registration">
     <div class="row">
         <div class="col-sm-4 col-sm-4 col-sm-4 container justify-content-center card">
-          <p></p>
+            <p></p>
             <h4 class="text-sm-center">Edit Appointment</h4>
             <div class="card-body">
                 <form action="#" th:action="@{/thyme/meeting/update}" th:object="${meetingUpdateDto}" method="post">
 
-                  <div>
-                    <input type="hidden" th:value="${meetingById.id}" th:name="id">
-                  </div>
+                    <div>
+                        <input type="hidden" th:value="${meetingById.id}" th:name="id">
+                    </div>
 
                     <p></p>
                     <div class="form-group">
@@ -179,8 +112,6 @@
                                placeholder="address">
                     </div>
 
-
-
                     <p></p>
                     <div class="box-footer" align="center">
                         <button type="submit" class="btn btn-success">
@@ -194,8 +125,5 @@
 
     </div>
 </div>
-
-
-
 
 </html>

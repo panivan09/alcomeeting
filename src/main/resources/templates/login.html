@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Main page</title>
@@ -13,56 +14,49 @@
 
 </head>
 
-
-
 <br>
-
 <h1 class="text-sm-center">Welcome dear friend!</h1>
-
 <br>
 
 <div class="container">
-<h3 class="text-sm-center">
-    This site exists for people who want to have a good evening with a glass
-    of their favorite drink.
-    If you can't find someone to drink with, don't worry,
-    we'll help you find a good party or drinking buddy.
-    All you need to do is Log in
-    and choose an offer from the list or make a new one yourself.
-</h3>
+    <h3 class="text-sm-center">
+        This site exists for people who want to have a good evening with a glass
+        of their favorite drink.
+        If you can't find someone to drink with, don't worry,
+        we'll help you find a good party or drinking buddy.
+        All you need to do is Log in
+        and choose an offer from the list or make a new one yourself.
+    </h3>
 </div>
 
 <body>
 <div class="container py-5 h-50">
     <div class="col-lg-4 col-md-4 col-sm-4 container justify-content-center card">
 
-            <div class="card-body p-3 p-lg-3 text-black">
+        <div class="card-body p-3 p-lg-3 text-black">
 
-        <form class="form-signin" method="post" action="/security/login">
-            <h5 class="fw-semibold mb-3 pb-3 text-lg-center">We are waiting for you &#128540;</h5>
-            <i class="bi bi-emoji-smile"></i>
-            <p>
-                <input type="text" id="username" name="username" class="form-control" placeholder="nickname">
-            </p>
-            <p>
-                <input type="password" id="password" name="password" class="form-control" placeholder="password">
-            </p>
-            <div class="d-grid gap-2">
-            <button class="btn btn-dark" type="submit">Login</button>
-            </div>
+            <form class="form-signin" method="post" action="/security/login">
+                <h5 class="fw-semibold mb-3 pb-3 text-lg-center">We are waiting for you &#128540;</h5>
+                <i class="bi bi-emoji-smile"></i>
+                <p>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="nickname">
+                </p>
+                <p>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="password">
+                </p>
+                <div class="d-grid gap-2">
+                    <button class="btn btn-dark" type="submit">Login</button>
+                </div>
 
-            <p></p>
-            <a>Don't have an account?</a>
-            <a th:href="@{/thyme/registration}">Registration</a>
+                <p></p>
+                <a>Don't have an account?</a>
+                <a th:href="@{/thyme/registration}">Registration</a>
 
-        </form>
+            </form>
 
-
+        </div>
     </div>
-    </div>
-
 </div>
 </body>
-
 
 </html>

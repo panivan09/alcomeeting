@@ -11,43 +11,6 @@
 
 </head>
 
-<!--<body>-->
-
-<!--<div class="container">-->
-<!--    <table class="table table-bordered table-striped">-->
-
-<!--        <thead>-->
-<!--        <tr>-->
-<!--            <th>Beverages</th>-->
-<!--            <th>Date</th>-->
-<!--            <th>Place</th>-->
-<!--            <th>Name</th>-->
-<!--            <th>Participates</th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-
-<!--        <tbody>-->
-<!--        <tr th:each="meeting : ${meetings}">-->
-<!--            <td th:text="${meeting.listBeverages}"></td>-->
-<!--            <td th:text="${meeting.date}"></td>-->
-<!--            <td th:text="${meeting.address}"></td>-->
-<!--            <td th:text="${meeting.name}"></td>-->
-<!--            <td th:text="${meeting.listParticipates}"></td>-->
-
-<!--        </tr>-->
-<!--        </tbody>-->
-
-<!--    </table>-->
-<!--</div>-->
-
-<!--<form th:action="@{/thyme/main}" method="get">-->
-<!--    <button type="submit" name="action">Back to main menu</button>-->
-<!--</form>-->
-
-<!--</body>-->
-
-<!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
-
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -100,8 +63,10 @@
             <td th:text="${meeting.listParticipates}"></td>
             <td>
                 <div th:if="${meeting.isOwner}">
-                    <a th:href="@{/thyme/meeting/update(meetingId=${meeting.id})}" class="btn btn-primary btn-sm">Edit</a>
-                    <a th:href="@{/thyme/meeting/delete(meetingId=${meeting.id})}" class="btn btn-danger btn-sm">Delete</a>
+                    <a th:href="@{/thyme/meeting/update(meetingId=${meeting.id})}"
+                       class="btn btn-primary btn-sm">Edit</a>
+                    <a th:href="@{/thyme/meeting/delete(meetingId=${meeting.id})}"
+                       class="btn btn-danger btn-sm">Delete</a>
                 </div>
 
                 <div>
@@ -130,7 +95,7 @@
 
 <p></p>
 <div align="center">
-    <a th:href="@{/thyme/main}" class="btn btn-primary ml-2" >Back to main page</a>
+    <a th:href="@{/thyme/main}" class="btn btn-primary ml-2">Back to main page</a>
 </div>
 
 </html>

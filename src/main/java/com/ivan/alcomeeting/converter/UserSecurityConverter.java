@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class UserSecurityConverter {
 
     public UserDetails userToUserDetails(User userEntity){
-        UserDetails build = org.springframework.security.core.userdetails.User.builder()
+        return org.springframework.security.core.userdetails.User.builder()
                 .authorities(userEntity.getRoles().stream()
                         .map(this::getAuthorities)
                         .flatMap(Collection::stream)
@@ -26,7 +26,6 @@ public class UserSecurityConverter {
                 .accountLocked(false)
                 .credentialsExpired(false)
                 .build();
-        return build;
     }
 
     private Set<SimpleGrantedAuthority> getAuthorities(Role role){

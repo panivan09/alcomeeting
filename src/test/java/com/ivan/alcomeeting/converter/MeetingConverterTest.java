@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 class MeetingConverterTest {
@@ -77,7 +76,6 @@ class MeetingConverterTest {
         MeetingDto actual = meetingConverter.meetingToMeetingDto(meeting);
 
         // Then
-        // TODO: how to use compare?
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -140,7 +138,6 @@ class MeetingConverterTest {
         MeetingDto actual = meetingConverter.meetingToMeetingDto(meeting);
 
         // Then
-        // TODO: how to use compare?
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -191,7 +188,6 @@ class MeetingConverterTest {
         MeetingDto actual = meetingConverter.meetingToMeetingDto(meeting);
 
         // Then
-        // TODO: how to use compare?
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -248,7 +244,6 @@ class MeetingConverterTest {
         MeetingDto actual = meetingConverter.meetingToMeetingDto(meeting);
 
         // Then
-        // TODO: how to use compare?
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -302,7 +297,6 @@ class MeetingConverterTest {
         Meeting actual = meetingConverter.meetingCreationDtoToMeeting(meetingCreationDto, beverageList, meetingOwner);
 
         // Then
-        // TODO: is it right approach to compare?
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 }

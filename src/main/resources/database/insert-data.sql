@@ -1,7 +1,6 @@
 
 INSERT INTO users(name, last_name, email, user_name, password) VALUES
--- ('Matthew', 'McConaughey', 'matthew@gmail.com', 'mat', '$2a$10$iGLpYS5hj2pcb4AX3bXB../pUH0JNM6k1tz0TlnhASz/ZoLCssVP.'),
-('Matthew', 'McConaughey', 'matthew@gmail.com', 'mat', '$2a$10$uCwYS83v9mvieWKwA6vM0.FGbAWOyGC190xoJl3BsklVNrdvnfV06'),
+('Matthew', 'McConaughey', 'matthew@gmail.com', 'mat', '$2a$10$iGLpYS5hj2pcb4AX3bXB../pUH0JNM6k1tz0TlnhASz/ZoLCssVP.'),
 ('Keanu', 'Reeves', 'keanu@mail.com', 'kea', '$2a$10$iGLpYS5hj2pcb4AX3bXB../pUH0JNM6k1tz0TlnhASz/ZoLCssVP.'),
 ('Johnny', 'Depp', 'johnny.gmail.com', 'joh', '$2a$10$iGLpYS5hj2pcb4AX3bXB../pUH0JNM6k1tz0TlnhASz/ZoLCssVP.'),
 ('Eva', 'Mendes', 'eva.gmail.com', 'eva', '$2a$10$iGLpYS5hj2pcb4AX3bXB../pUH0JNM6k1tz0TlnhASz/ZoLCssVP.'),

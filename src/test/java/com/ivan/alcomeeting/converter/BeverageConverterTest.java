@@ -8,7 +8,6 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class BeverageConverterTest {
     @InjectMocks

@@ -23,20 +23,18 @@ public class SecurityConfig {
                 .anyRequest()
                 .authenticated()
                 .and()
-        .httpBasic()
-//                .formLogin()
-//                    .loginPage("/security/login").permitAll() // url of the PAGE
-//                    .loginProcessingUrl("/security/login").permitAll() // url of endpoint to process POST request (generated)
-//                    .defaultSuccessUrl("/thyme/main", true) // url to redirect on POST request to /login
-//                .and()
-//                .logout()
-//                    .logoutUrl("/logout")
-//                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout","GET"))
-//                    .clearAuthentication(true)
-//                    .invalidateHttpSession(true)
-//                    .deleteCookies("JSESSIONID")
-//                    .logoutSuccessUrl("/security/login")
-        ;
+                .formLogin()
+                    .loginPage("/security/login").permitAll() // url of the PAGE
+                    .loginProcessingUrl("/security/login").permitAll() // url of endpoint to process POST request (generated)
+                    .defaultSuccessUrl("/thyme/main", true) // url to redirect on POST request to /login
+                .and()
+                .logout()
+                    .logoutUrl("/logout")
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout","GET"))
+                    .clearAuthentication(true)
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID")
+                    .logoutSuccessUrl("/security/login");
 
         return http.build();
     }

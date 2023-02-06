@@ -19,11 +19,6 @@ class UserEmailValidatorTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    // 1 - null -> exception
-    // 2 - empty -> exc
-    // 3 - not email -> exc
-    // 4 - email - no exc
-
     @Test
     public void validate_throwValidationExceptionIfEmailDoesNotMatchEmailPattern() {
         // Given
