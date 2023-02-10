@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update meeting page</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+          crossorigin="anonymous">
+
+</head>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:text="${loggedUserFullName}"></a>
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-nav">
+            <div class="navbar-item">
+                <a class="nav-link " aria-current="page" th:href="@{/logout}">Logout</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<p></p>
+<p></p>
+<div class="container">
+    <div class="row">
+        <h3>Current meeting</h3>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Place</th>
+            <th>Meeting creator</th>
+            <th>Beverages</th>
+            <th>Participates</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="meeting : ${meetingById}">
+            <td th:text="${meeting.name}"></td>
+            <td th:text="${meeting.date}"></td>
+            <td th:text="${meeting.address}"></td>
+            <td th:text="${meeting.meetingOwner}"></td>
+            <td th:text="${meeting.listBeverages}"></td>
+            <td th:text="${meeting.listParticipates}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<br>
+<div align="center">
+    <a th:href="@{/thyme/main}" class="btn btn-primary ml-2">Back to main page</a>
+</div>
+<br>
+
+<div class="container registration">
+    <div class="row">
+        <div class="col-sm-4 col-sm-4 col-sm-4 container justify-content-center card">
+            <p></p>
+            <h4 class="text-sm-center">Edit Appointment</h4>
+            <div class="card-body">
+                <form action="#" th:action="@{/thyme/meeting/update}" th:object="${meetingUpdateDto}" method="post">
+
+                    <div>
+                        <input type="hidden" th:value="${meetingById.id}" th:name="id">
+                    </div>
+
+                    <p></p>
+                    <div class="form-group">
+                        <label style="font-weight:700" for="name">Meeting Name</label>
+                        <input type="text"
+                               th:field="*{name}"
+                               id="name"
+                               class="form-control fst-italic"
+                               placeholder="name">
+                    </div>
+
+                    <p></p>
+                    <div class="form-group">
+                        <label style="font-weight:700" for="date">Meeting Date</label>
+                        <input type="datetime-local"
+                               th:field="*{date}"
+                               id="date"
+                               class="form-control fst-italic"
+                               placeholder="date">
+                    </div>
+
+                    <p></p>
+                    <div class="form-group">
+                        <label style="font-weight:700" for="address">Meeting Address</label>
+                        <input type="text"
+                               th:field="*{address}"
+                               id="address"
+                               class="form-control fst-italic"
+                               placeholder="address">
+                    </div>
+
+                    <p></p>
+                    <div class="box-footer" align="center">
+                        <button type="submit" class="btn btn-success">
+                            Update
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</html>
