@@ -35,11 +35,10 @@ The idea of the app is to help people find friends to hang out with. App allows 
 
    
    1. Launch DB with default settings:
-      - PORT - 5433
-      - DATABASENAME - postgres
-      - USERNAME - postgres
-      - PASSWORD - password
-      
+       PORT - 5433  
+       DATABASENAME - postgres  
+       USERNAME - postgres  
+       PASSWORD - password  
       You can change the settings in the "application.properties" file by the path: src/main/resources/application.properties
    
    2. Open the project in intelliJ IDEA, comment out settings for the H2 database and uncomment for PostgreSQL in the
