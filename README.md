@@ -26,10 +26,8 @@ The idea of the app is to help people find friends to hang out with. App allows 
    2. Go to the entry point: http://localhost:8080/thyme/main
 
  - URL for H2 Console: http://localhost:8080/h2
-   
-   USERNAME - sa
-   
-   PASSWORD - password
+   - USERNAME - sa
+   - PASSWORD - password
    
    The settings for this database are located by the path: src/main/resources/application.properties
 
@@ -38,14 +36,10 @@ The idea of the app is to help people find friends to hang out with. App allows 
 
    
    1. Launch DB with default settings:
-      
-      PORT - 5433
-      
-      DATABASENAME - postgres
-      
-      USERNAME - postgres
-      
-      PASSWORD - password
+      - PORT - 5433
+      - DATABASENAME - postgres
+      - USERNAME - postgres
+      - PASSWORD - password
       
       You can change the settings in the "application.properties" file by the path: src/main/resources/application.properties
    
