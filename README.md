@@ -34,7 +34,7 @@ The idea of the app is to help people find friends to hang out with. App allows 
 #### - Second way is to use the PostgreSQL database
 
    
-   1. Launch DB with default settings:
+   1. Launch DB with default settings:  
        PORT - 5433  
        DATABASENAME - postgres  
        USERNAME - postgres  
