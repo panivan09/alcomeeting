@@ -1,6 +1,5 @@
 package com.ivan.alcomeeting.service.user;
 
-import com.ivan.alcomeeting.entity.Role;
 import com.ivan.alcomeeting.entity.User;
 import com.ivan.alcomeeting.exception.EntityNotFoundException;
 import com.ivan.alcomeeting.exception.ValidationException;
@@ -43,5 +42,4 @@ public class UserRightService {
             throw new ValidationException("Current user does not have access");
         }
     }
-
 }

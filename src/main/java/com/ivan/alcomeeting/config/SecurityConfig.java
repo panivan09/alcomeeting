@@ -6,7 +6,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -18,8 +17,10 @@ public class SecurityConfig {
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .headers().frameOptions().disable()
+                .and()
                 .authorizeRequests()
-                .antMatchers("/", "/thyme/registration", "/api/user/registration", "/api/user/bulk", "/static/css/*", "/js/*").permitAll()
+                .antMatchers("/", "/thyme/registration", "/api/user/registration", "/api/user/bulk", "/static/css/*", "/js/*", "/h2/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

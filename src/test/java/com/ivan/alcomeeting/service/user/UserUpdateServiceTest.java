@@ -10,6 +10,7 @@ import com.ivan.alcomeeting.exception.EntityNotFoundException;
 import com.ivan.alcomeeting.exception.ValidationException;
 import com.ivan.alcomeeting.repository.UserRepository;
 import com.ivan.alcomeeting.service.BeverageService;
+import com.ivan.alcomeeting.validation.UserEmailValidator;
 import com.ivan.alcomeeting.validation.UserPasswordValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,6 +39,8 @@ class UserUpdateServiceTest {
     private UserReadService userReadService;
     @Mock
     private UserPasswordValidator userPasswordValidator;
+    @Mock
+    private UserEmailValidator userEmailValidator;
 
     @InjectMocks
     private UserUpdateService userUpdateService;

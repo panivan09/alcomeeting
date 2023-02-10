@@ -2,7 +2,6 @@ package com.ivan.alcomeeting.service.user;
 
 import com.ivan.alcomeeting.converter.UserSecurityConverter;
 import com.ivan.alcomeeting.entity.User;
-import com.ivan.alcomeeting.exception.EntityNotFoundException;
 import com.ivan.alcomeeting.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

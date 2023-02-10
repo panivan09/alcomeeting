@@ -251,7 +251,7 @@ class BeverageServiceTest {
     void getBeverageEntityByName_throwEntityNotFoundExceptionIfBeverageRepositoryHasNoBeverage() {
         //Given
         String beverageName = "Shmurdyak";
-        String exceptionMessage = "The beverage does not exist by Id: " + beverageName;
+        String exceptionMessage = "The beverage does not exist by name: " + beverageName;
 
         when(beverageRepository.findByName(beverageName)).thenReturn(Optional.empty());
 

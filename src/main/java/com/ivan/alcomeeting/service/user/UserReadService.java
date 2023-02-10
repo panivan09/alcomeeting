@@ -4,7 +4,6 @@ import com.ivan.alcomeeting.converter.UserConverter;
 import com.ivan.alcomeeting.dto.UserDto;
 import com.ivan.alcomeeting.entity.User;
 import com.ivan.alcomeeting.exception.EntityNotFoundException;
-import com.ivan.alcomeeting.exception.ValidationException;
 import com.ivan.alcomeeting.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,5 +54,4 @@ public class UserReadService {
         }
         return userEntity.get();
     }
-
 }

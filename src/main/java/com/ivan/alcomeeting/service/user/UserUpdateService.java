@@ -41,7 +41,6 @@ public class UserUpdateService {
 
     public UserDto updateUserFullName(Long userId, UserFullNameDto userUpdate) {
         User existingUser = userReadService.getUserEntityById(userId);
-        // check if userUpdate has the same values as existing. If yes - do nothing
         updateUserFullName(userUpdate, existingUser);
 
         userRepository.save(existingUser);

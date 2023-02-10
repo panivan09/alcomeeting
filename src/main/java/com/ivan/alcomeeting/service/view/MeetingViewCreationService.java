@@ -46,7 +46,7 @@ public class MeetingViewCreationService {
                 .map(beverageRepository::getReferenceById)
                 .collect(Collectors.toList());
 
-        User owner = userViewService.getUserByUserName(principal.getName());// ???????
+        User owner = userViewService.getUserByUserName(principal.getName());
 
         Meeting createMeeting = meetingViewConverter.meetingCreationDtoToMeeting(
                 meetingCreationDto,

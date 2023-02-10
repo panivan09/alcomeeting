@@ -101,9 +101,4 @@ public class UserController {
 
         return userUpdateService.deleteBeverage(userId, beverageId);
     }
-
-    // endpoint for update password updateUserPassword(@RequestBodyBoyd String password) - +
-    // updateUserFullName(@RequestBody UserFullNameDto fullName) - +
-    // updateUserEmail(@RequestBody String email) - +
-    // + validation on each of them - +
 }

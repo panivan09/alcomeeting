@@ -17,7 +17,7 @@ public class UserCreationValidator {
 
     public void validate(UserCreationDto userCreation) throws ValidationException {
 
-        String email = userCreation.getEmail(); // check valid email by regex pxatternx
+        String email = userCreation.getEmail();
         String password = userCreation.getPassword();
 
         validateNotNullOrEmpty(userCreation.getName(), "User name should not be null or empty");
@@ -36,7 +36,5 @@ public class UserCreationValidator {
                                                                     " including UPPER/lowercase and numbers");
 
         validateCollectionNotNullOrEmpty(userCreation.getBeverages(), "User beverages should not be null or empty");
-
     }
-
 }

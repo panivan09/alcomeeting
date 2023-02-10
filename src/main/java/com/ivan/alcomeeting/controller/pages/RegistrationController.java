@@ -41,6 +41,4 @@ public class RegistrationController {
 
         return "redirect:main";
     }
-
-
 }

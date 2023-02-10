@@ -40,5 +40,4 @@ public class UserCreationDto {
     @NotEmpty(message = "User Beverages should not be null or empty")
     private Set<Long> beverages;
 
-
 }

@@ -19,8 +19,6 @@ public class MeetingDeleteController {
         this.meetingDeleteService = meetingDeleteService;
     }
 
-
-
     @GetMapping
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public String deleteMeeting(@RequestParam Long meetingId) throws ValidationException {
