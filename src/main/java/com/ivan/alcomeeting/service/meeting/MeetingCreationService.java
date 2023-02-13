@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,13 +35,12 @@ public class MeetingCreationService {
     }
 
     public MeetingDto createMeeting(MeetingCreationDto meetingCreationDto, Principal principal) {
-        validateIsAllowedForMeeting(principal.getName(), meetingCreationDto.getMeetingOwner());
-
-        List<Beverage> allBeverages = meetingCreationDto.getBeverages().stream()
-                .map(beverageRepository::getReferenceById)
-                .collect(Collectors.toList());
-
         User owner = userReadService.getUserByUserName(principal.getName());
+        validateIsAllowedForMeeting(owner, meetingCreationDto.getMeetingOwner());
+
+        Set<Beverage> allBeverages = meetingCreationDto.getBeverages().stream()
+                .map(beverageRepository::getReferenceById)
+                .collect(Collectors.toSet());
 
         Meeting createMeeting = meetingConverter.meetingCreationDtoToMeeting(
                 meetingCreationDto,
@@ -52,8 +52,8 @@ public class MeetingCreationService {
         return meetingConverter.meetingToMeetingDto(createMeeting);
     }
 
-    private void validateIsAllowedForMeeting(String loggedUserName, Long meetingOwner){
-        Long loggedUserId = userReadService.getUserByUserName(loggedUserName).getId();
+    private void validateIsAllowedForMeeting(User owner, Long meetingOwner){
+        Long loggedUserId = owner.getId();
 
         if (!meetingOwner.equals(loggedUserId)){
             throw new ValidationException("Logged user is different from meeting owner");

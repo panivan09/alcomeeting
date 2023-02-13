@@ -56,7 +56,7 @@ public class MeetingConverter {
 
     public Meeting meetingCreationDtoToMeeting(
             MeetingCreationDto meetingCreationDto,
-            List<Beverage> beverages,
+            Set<Beverage> beverages,
             User owner) {
 
         Meeting meeting = new Meeting();
@@ -68,7 +68,7 @@ public class MeetingConverter {
         meeting.setAddress(meetingCreationDto.getAddress());
         meeting.setMeetingOwner(owner);
         meeting.setParticipates(participates);
-        meeting.setBeverages(new HashSet<>(beverages));
+        meeting.setBeverages(beverages);
 
         return meeting;
     }

@@ -271,9 +271,9 @@ class MeetingConverterTest {
         Set<Beverage> beveragesSet = new HashSet<>();
         beveragesSet.add(beverage1);
         beveragesSet.add(beverage2);
-        List<Beverage> beverageList = new ArrayList<>();
-        beverageList.add(beverage1);
-        beverageList.add(beverage2);
+        Set<Beverage> beverageSet = new HashSet<>();
+        beverageSet.add(beverage1);
+        beverageSet.add(beverage2);
 
         Set<User> participates = new HashSet<>();
         participates.add(meetingOwner);
@@ -294,7 +294,7 @@ class MeetingConverterTest {
         expected.setBeverages(beveragesSet);
 
         // When
-        Meeting actual = meetingConverter.meetingCreationDtoToMeeting(meetingCreationDto, beverageList, meetingOwner);
+        Meeting actual = meetingConverter.meetingCreationDtoToMeeting(meetingCreationDto, beverageSet, meetingOwner);
 
         // Then
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);

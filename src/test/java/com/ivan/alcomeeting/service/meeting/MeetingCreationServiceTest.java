@@ -19,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -74,18 +75,23 @@ class MeetingCreationServiceTest {
     @Test
     void createMeeting_returnMeetingDtoAfterCreation() {
         // Given
+        Long meetingId = 5L;
         Long loggedUserId = 3L;
         Long meetingOwnerId = 3L;
         String loggedUserName = "Poc";
         Long beverageId1 = 1L;
         Long beverageId2 = 2L;
+        String meetingName = "Tuc-tuc";
+        String meetingDate = "2020-11-10T18:30";
+        String meetingDateForDto = "2020-11-10 18:30";
+        String meetingAddress = "Cuba";
 
         Beverage beverage1 = new Beverage(beverageId1, "Any", "Any");
         Beverage beverage2 = new Beverage(beverageId2, "Any", "Any");
         BeverageDto beverageDto1 = new BeverageDto(beverageId1, "Any", "Any");
         BeverageDto beverageDto2 = new BeverageDto(beverageId2, "Any", "Any");
 
-        List<Beverage> allBeverage = List.of(beverage1, beverage2);
+        Set<Beverage> allBeverage = Set.of(beverage1, beverage2);
 
         User user = new User();
         user.setId(loggedUserId);
@@ -94,30 +100,33 @@ class MeetingCreationServiceTest {
         userDto.setId(loggedUserId);
 
         MeetingCreationDto meetingCreationDto = MeetingCreationDto.builder()
+                .name(meetingName)
+                .date(meetingDate)
+                .address(meetingAddress)
                 .meetingOwner(meetingOwnerId)
                 .beverages(Set.of(beverageId1, beverageId2))
                 .build();
 
-        Meeting meeting = new Meeting(5L,
-                "Any",
-                null,
-                "Any",
+        Meeting meeting = new Meeting(meetingId,
+                meetingName,
+                LocalDateTime.parse(meetingDate),
+                meetingAddress,
                 user,
-                null,
+                Set.of(user),
                 Set.copyOf(allBeverage));
 
-        MeetingDto expectedMeeting = new MeetingDto(5L,
-                "Any",
-                null,
-                "Any",
+        MeetingDto expectedMeeting = new MeetingDto(meetingId,
+                meetingName,
+                meetingDateForDto,
+                meetingAddress,
                 userDto,
-                null,
+                List.of(userDto),
                 List.of(beverageDto1, beverageDto2));
 
         when(principal.getName()).thenReturn(loggedUserName);
+        when(userReadService.getUserByUserName(loggedUserName)).thenReturn(user);
         when(beverageRepository.getReferenceById(beverageId1)).thenReturn(beverage1);
         when(beverageRepository.getReferenceById(beverageId2)).thenReturn(beverage2);
-        when(userReadService.getUserByUserName(loggedUserName)).thenReturn(user);
         when(meetingConverter.meetingCreationDtoToMeeting(meetingCreationDto, allBeverage, user)).thenReturn(meeting);
         when(meetingConverter.meetingToMeetingDto(meeting)).thenReturn(expectedMeeting);
 

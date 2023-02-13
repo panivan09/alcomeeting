@@ -36,9 +36,9 @@ public class UserConverter {
         userDto.setUserName(user.getUserName());
         userDto.setPassword(user.getPassword());
         userDto.setBeverages(user.getBeverages().stream()
-                .map(beverageConverter::beverageToBeverageDto)
-                .sorted(Comparator.comparing(BeverageDto::getName))
-                .collect(Collectors.toList()));
+                                                .map(beverageConverter::beverageToBeverageDto)
+                                                .sorted(Comparator.comparing(BeverageDto::getName))
+                                                .collect(Collectors.toList()));
 
         return userDto;
     }
@@ -83,6 +83,7 @@ public class UserConverter {
         userViewDto.setEmail(user.getEmail());
         userViewDto.setBeverages(user.getBeverages().stream()
                                                     .map(Beverage::getName)
+                                                    .sorted()
                                                     .collect(Collectors.joining(", ")));
         return userViewDto;
     }
